@@ -157,7 +157,7 @@ class DocTracer
                 $items[] = $_namespace;
             }
 
-            if ($tokens[$i][0] === T_CLASS) {
+            if ($tokens[$i][0] === T_CLASS || $tokens[$i][0] === T_TRAIT) {
                 $items[] = $tokens[$i + 2][1];
 
                 break;
