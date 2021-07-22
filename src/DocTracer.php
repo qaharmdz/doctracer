@@ -485,7 +485,7 @@ class DocTracer
             $_iRowspanNamespace = 0;
 
             $tdNamespace = '
-            <td class="dt-namespace-start" rowspan="{rowspan-namespace}">
+            <td rowspan="{rowspan-namespace}">
                 <span id="' . $namespace . '" class="dt-anchor dt-anchor-namespace"></span>
                 <div class="dt-namespace">' . $namespace . '</div>
             </td>';
@@ -498,7 +498,7 @@ class DocTracer
                 $_iRowspanClass = 0;
 
                 $tdClass = '
-                <td class="dt-class-start" rowspan="{rowspan-class}">
+                <td rowspan="{rowspan-class}">
                     <span id="' . $class['fullname'] . '" class="dt-anchor dt-anchor-class"></span>
                     <div class="dt-class">
                         <abbr title="' . $class['file'] . '">' . $class['name'] . '</abbr>
@@ -523,13 +523,11 @@ class DocTracer
                     $_iRowspanClass++;
 
                     $tableTr .= '
-                    <tr>'
+                    <tr class="dt-class-divider">'
                         . $tdNamespace
                         . $tdClass
-                        . '<td colspan="2" class="dt-class-start dt-docblock striped">'
-                        . ($class['docblock']['summary'] || $class['docblock']['tags'] 
-                            ? $this->formatDocBlock($class['docblock'])
-                            : '')
+                        . '<td colspan="2" class="dt-docblock striped">'
+                        . ($class['docblock'] ? $this->formatDocBlock($class['docblock']) : '')
                         . '</td>
                     </tr>';
                     
@@ -538,14 +536,14 @@ class DocTracer
                 }
 
                 foreach ($class['constants'] as $constant) {
-                    $tableTr .= '<tr>';
-
-                    if ($_iRowspanNamespace == 0 && $tdNamespace) {
+                    if (!$tdNamespace && !$tdClass) {
+                        $tableTr .= '<tr>';
+                    } elseif ($_iRowspanNamespace == 0 && $tdNamespace) {
+                        $tableTr .= '<tr class="dt-class-divider">';
                         $tableTr .= $tdNamespace;
                         $tdNamespace = '';
-                    }
-
-                    if ($_iRowspanClass == 0 && $tdClass) {
+                    } elseif ($_iRowspanClass == 0 && $tdClass) {
+                        $tableTr .= '<tr class="dt-class-divider">';
                         $tableTr .= $tdClass;
                         $tdClass = '';
                     }
@@ -568,13 +566,7 @@ class DocTracer
                     
                     // Column documentation
                     if ($constant['docblock']) {
-                        $tableTr .= '<td class="dt-docblock striped">';
-                        if ($constant['docblock']['summary'] || $constant['docblock']['tags']) {
-                            $tableTr .= $this->formatDocBlock($constant['docblock']);
-                        } else {
-                            $tableTr .= '<span class="dt-doc-na">n/a</span>';
-                        }
-                        $tableTr .= '</td>';
+                        $tableTr .= '<td class="dt-docblock striped">' . $this->formatDocBlock($constant['docblock']) . '</td>';
                     }
 
                     $_iRowspanClass++;
@@ -582,59 +574,55 @@ class DocTracer
                 }
 
                 foreach ($class['properties'] as $property) {
-                    $tableTr .= '<tr>';
-
-                    if ($_iRowspanNamespace == 0 && $tdNamespace) {
+                    if (!$tdNamespace && !$tdClass) {
+                        $tableTr .= '<tr>';
+                    } elseif ($_iRowspanNamespace == 0 && $tdNamespace) {
+                        $tableTr .= '<tr class="dt-class-divider">';
                         $tableTr .= $tdNamespace;
                         $tdNamespace = '';
-                    }
-
-                    if ($_iRowspanClass == 0 && $tdClass) {
+                    } elseif ($_iRowspanClass == 0 && $tdClass) {
+                        $tableTr .= '<tr class="dt-class-divider">';
                         $tableTr .= $tdClass;
                         $tdClass = '';
                     }
 
-                    // Column constant
+                    // Column property
                     $tableTr .= '
-                    <td class="dt-constant striped">
-                        <span id="' . $class['fullname'] . '\\' . $property['name'] . '" class="dt-anchor dt-anchor-constant"></span>
-                        <span class="dt-constant-modifier">' . implode(' ', $property['modifier']) . '</span>
-                        <span class="dt-constant-name-value">
-                            <span class="dt-constant-name">$' . $property['name'] . '</span>'
-                            . ($property['value'] !== '' ? ' = <span class="dt-constant-value">' . $property['value'] . '</span>' : '')
+                    <td class="dt-property striped"' . (!$property['docblock'] ? 'colspan="2"' : '') . '>
+                        <span id="' . $class['fullname'] . '\\' . $property['name'] . '" class="dt-anchor dt-anchor-property"></span>
+                        <span class="dt-property-modifier">' . implode(' ', $property['modifier']) . '</span>
+                        <span class="dt-property-name-value">
+                            <span class="dt-property-name">$' . $property['name'] . '</span>'
+                            . ($property['value'] !== '' ? ' = <span class="dt-property-value">' . $property['value'] . '</span>' : '')
                         . '<span class="dt-gray">;</span>
                         <span>
                     </td>';
 
                     // Column documentation
-                    $tableTr .= '<td class="dt-docblock striped">';
-                    if ($property['docblock'] && ($property['docblock']['summary'] || $property['docblock']['tags'])) {
-                        $tableTr .= $this->formatDocBlock($property['docblock']);
-                    } else {
-                        $tableTr .= '<span class="dt-doc-na">n/a</span>';
+                    if ($property['docblock']) {
+                        $tableTr .= '<td class="dt-docblock striped">' . $this->formatDocBlock($property['docblock']) . '</td>';
                     }
-                    $tableTr .= '</td>';
 
                     $_iRowspanClass++;
                     $_iRowspanNamespace++;
                 }
 
                 foreach ($class['methods'] as $method) {
-                    $tableTr .= '<tr>';
-
-                    if ($_iRowspanNamespace == 0 && $tdNamespace) {
+                    if (!$tdNamespace && !$tdClass) {
+                        $tableTr .= '<tr>';
+                    } elseif ($_iRowspanNamespace == 0 && $tdNamespace) {
+                        $tableTr .= '<tr class="dt-class-divider">';
                         $tableTr .= $tdNamespace;
                         $tdNamespace = '';
-                    }
-
-                    if ($_iRowspanClass == 0 && $tdClass) {
+                    } elseif ($_iRowspanClass == 0 && $tdClass) {
+                        $tableTr .= '<tr class="dt-class-divider">';
                         $tableTr .= $tdClass;
                         $tdClass = '';
                     }
 
                     // Column method
                     $tableTr .= '
-                    <td class="dt-method striped">
+                    <td class="dt-method striped"' . (!$method['docblock'] ? 'colspan="2"' : '') . '>
                         <span id="' . $class['fullname'] . '\\' . $method['name'] . '" class="dt-anchor dt-anchor-method"></span>
                         <span class="dt-method-modifier">' . implode(' ', $method['modifier']) . '</span>
                         <span class="dt-method-name">' . $method['name'] . '</span>(';
@@ -657,13 +645,9 @@ class DocTracer
                     . '</td>';
 
                     // Column documentation
-                    $tableTr .= '<td class="dt-docblock striped">';
-                    if ($method['docblock'] && ($method['docblock']['summary'] || $method['docblock']['tags'])) {
-                        $tableTr .= $this->formatDocBlock($method['docblock']);
-                    } else {
-                        $tableTr .= '<span class="dt-doc-na">n/a</span>';
+                    if ($method['docblock']) {
+                        $tableTr .= '<td class="dt-docblock striped">' . $this->formatDocBlock($method['docblock']) . '</td>';
                     }
-                    $tableTr .= '</td>';
                     $tableTr .= '</tr>';
 
                     $_iRowspanClass++;
@@ -671,6 +655,7 @@ class DocTracer
                 }
                 $tableTr = str_replace('{rowspan-class}', $_iRowspanClass, $tableTr);
             }
+
             $html .= str_replace('{rowspan-namespace}', $_iRowspanNamespace, $tableTr);
         }
 
