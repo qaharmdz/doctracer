@@ -219,8 +219,8 @@ class DocTracer
                 }
 
                 $type = '';
-                if (PHP_VERSION_ID >= 70400) {
-                    $type = $refProperty->getType();
+                if (PHP_VERSION_ID >= 70400 && $refProperty->getType()) {
+                    $type = $refProperty->getType()->getName();
                 }
 
                 $reports[$refProperty->getName()] = [
@@ -591,6 +591,7 @@ class DocTracer
                     <td class="dt-property striped"' . (!$property['docblock'] ? 'colspan="2"' : '') . '>
                         <span id="' . $class['fullname'] . '\\' . $property['name'] . '" class="dt-anchor dt-anchor-property"></span>
                         <span class="dt-property-modifier">' . implode(' ', $property['modifier']) . '</span>
+                        <span class="dt-property-type">' . $property['type'] . '</span>
                         <span class="dt-property-name-value">
                             <span class="dt-property-name">$' . $property['name'] . '</span>'
                             . ($property['value'] !== '' ? ' = <span class="dt-property-value">' . $property['value'] . '</span>' : '')
