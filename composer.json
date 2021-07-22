@@ -1,0 +1,27 @@
+{
+    "name": "qaharmdz/doctracer",
+    "description": "PHP Class reflection and documentation generator",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+          "name": "Mudzakkir",
+          "email": "me@mdzstack.com"
+        }
+    ],
+    "require": {
+        "php": "^7.2 || ^8.0",
+        "phpdocumentor/reflection-docblock": "^5.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Mdz\\": "src/"
+        }
+    },
+    "prefer-stable": true,
+    "config": {
+        "vendor-dir": "vendor",
+        "preferred-install": "dist",
+        "optimize-autoloader": true
+    }
+}
