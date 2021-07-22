@@ -699,18 +699,18 @@ class DocTracer
                         $docs .= '<td class="dt-doc-tag-name">' . $tag['name'] . '</td>';
                         $docs .= '<td class="dt-doc-tag-type">' . $tagTypes . '</td>';
                         $docs .= '<td class="dt-doc-tag-variable">' . $tag['variable'] . '</td>';
-                        $docs .= '<td class="dt-doc-tag-description">' . $tag['description'] . '</td>';
+                        $docs .= '<td class="dt-doc-tag-description">' . $this->htmlEncode($tag['description']) . '</td>';
                         $docs .= '</tr>';
                     } elseif (in_array($name, ['var', 'return'])) {
                         $docs .= '<tr>';
                         $docs .= '<td class="dt-doc-tag-name">' . $tag['name'] . '</td>';
                         $docs .= '<td class="dt-doc-tag-type">' . $tagTypes . '</td>';
-                        $docs .= '<td class="dt-doc-tag-description">' . $tag['description'] . '</td>';
+                        $docs .= '<td class="dt-doc-tag-description">' . $this->htmlEncode($tag['description']) . '</td>';
                         $docs .= '</tr>';
                     } else {
                         $docs .= '<tr>';
                         $docs .= '<td class="dt-doc-tag-name">' . $tag['name'] . '</td>';
-                        $docs .= '<td class="dt-doc-tag-render">' . $tag['render'] . '</td>';
+                        $docs .= '<td class="dt-doc-tag-render">' . $this->htmlEncode($tag['render']) . '</td>';
                         $docs .= '</tr>';
                     }
                 }
