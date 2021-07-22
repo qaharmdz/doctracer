@@ -368,7 +368,7 @@ class DocTracer
                     'variable'    => '$' . $docTags->getVariableName(),
                     'description' => $docTags->getDescription()->render(),
                 ];
-            } elseif (in_array($docTags->getName(), ['var', 'return'])) {
+            } elseif (in_array($docTags->getName(), ['var', 'return', 'throws'])) {
                 $tags[$docTags->getName()][$i] = [
                     'name'        => '@' . $docTags->getName(),
                     'type'        => (string)$docTags->getType(),
