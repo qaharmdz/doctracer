@@ -699,14 +699,14 @@ class DocTracer
                     if ($name === 'param') {
                         $docs .= '<tr>';
                         $docs .= '<td class="dt-doc-tag-name">' . $tag['name'] . '</td>';
-                        $docs .= '<td class="dt-doc-tag-type">' . $tagTypes . '</td>';
+                        $docs .= '<td class="dt-doc-tag-type">' . $this->wordBreak($tagTypes) . '</td>';
                         $docs .= '<td class="dt-doc-tag-variable">' . $tag['variable'] . '</td>';
                         $docs .= '<td class="dt-doc-tag-description">' . $this->markdown($tag['description']) . '</td>';
                         $docs .= '</tr>';
                     } elseif (in_array($name, ['var', 'return', 'throws'])) {
                         $docs .= '<tr>';
                         $docs .= '<td class="dt-doc-tag-name">' . $tag['name'] . '</td>';
-                        $docs .= '<td class="dt-doc-tag-type">' . $tagTypes . '</td>';
+                        $docs .= '<td class="dt-doc-tag-type">' . $this->wordBreak($tagTypes) . '</td>';
                         $docs .= '<td class="dt-doc-tag-description">' . $this->markdown($tag['description']) . '</td>';
                         $docs .= '</tr>';
                     } else {
