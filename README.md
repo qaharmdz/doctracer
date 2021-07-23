@@ -31,13 +31,17 @@ $tracer->inspect('./../vendor/');
 Get the reports data.
 
 ```php
-print_r($tracer->getData());
+$reports = $tracer->getReports();
+var_dump($reports);
 ```
 
 Output the HTML report.
 
 ```php
-echo $output = $tracer->render();
+echo $output = $tracer->render([
+    '{title}'   => 'DocTracer',
+    '{tagline}' => 'PHP ReflectionClass and API documentation',
+]);
 
 // and save it to file
 file_put_contents('example-api.html', $output);
