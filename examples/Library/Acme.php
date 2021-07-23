@@ -23,6 +23,8 @@ namespace Example;
  * @link      [Markdown basic](https://daringfireball.net/projects/markdown/basics)
  * @link      [Markdown extra](https://michelf.ca/projects/php-markdown/extra/)
  *
+ * @not-exist A non-existant PHPDoc tag
+ *
  * @author    Original Author <alpha@example.com>
  * @author    Another Author <delta@example.com>
  * @copyright 2021 (c) Acme Corporation
