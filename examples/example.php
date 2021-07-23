@@ -20,4 +20,4 @@ $tracer->inspect('./../src');
 echo $output = $tracer->render();
 
 // Save to file
-// file_put_contents('exampleAPI.html', $output);
+// file_put_contents('example-api.html', $output);
