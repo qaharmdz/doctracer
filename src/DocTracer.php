@@ -679,7 +679,11 @@ class DocTracer
      */
     protected function formatDocBlock(array $docBlock): string
     {
-        $docs = '<div class="dt-doc-summary">' . $this->markdown($docBlock['summary']) . '</div>';
+        $docs = '';
+
+        if ($docBlock['summary']) {
+            $docs .= '<div class="dt-doc-summary">' . $this->markdown($docBlock['summary']) . '</div>';
+        }
 
         if ($docBlock['description']) {
             $docs .= '<div class="dt-doc-description">' . $this->markdown($docBlock['description']) . '</div>';
