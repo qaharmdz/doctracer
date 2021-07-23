@@ -409,22 +409,20 @@ class DocTracer
     public function render(array $setting = []): string
     {
         $vars = array_merge([
-            '{title}'       => 'DocTracer',
-            '{tagline}'     => 'PHP Class reflection and API documentation generator',
-            '{footer}'      => '',
+            '{template}'    => $this->getTemplate(),
+            '{footer}'      => '{title} - {tagline}',
+            '{theme_style}' => '',
             '{theme}'       => 'default',
+            '{tagline}'     => 'PHP ReflectionClass and API documentation',
+            '{title}'       => 'DocTracer',
         ], $setting);
-
-        if (!$vars['{footer}']) {
-            $vars['{footer}'] = $vars['{title}'] . ' - ' . $vars['{tagline}'];
-        }
 
         $vars['{version}']   = static::VERSION;
         $vars['{created}']   = gmdate('c');
         $vars['{styles}']    = $this->getStyle();
         $vars['{datatable}'] = $this->getDataTable();
 
-        return strtr($this->getTemplate(), $vars);
+        return str_replace(array_keys($vars), $vars, $vars['{template}']);
     }
 
     /**
@@ -443,6 +441,7 @@ class DocTracer
 
     <style>
     {styles}
+    {theme_style}
     </style>
 </head>
 
@@ -459,7 +458,9 @@ class DocTracer
         at <span class="dt-created">{created}</span>
     </div>
     <a class="dt-toTop" href="#docTracer">^Top</a>
-</div>';
+</div>
+</body>
+</html>';
     }
 
     /**
