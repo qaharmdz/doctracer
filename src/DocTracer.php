@@ -78,20 +78,23 @@ class DocTracer
         foreach ($files as $fileInfo) {
             $content     = file_get_contents($fileInfo->getRealPath());
             $fqnClass    = $this->parseNamespace($content);
-            $refClass    = new \ReflectionClass($fqnClass);
-            $parentClass = $refClass->getParentClass();
 
-            $classData[$refClass->getNamespaceName()][$refClass->getShortName()] = [
-                'name'       => $refClass->getShortName(),
-                'fullname'   => $refClass->getName(),
-                'file'       => str_replace($this->baseDir, '', $refClass->getFileName()),
-                'extend'     => ($parentClass ? $parentClass->getName() : ''),
-                'interfaces' => $refClass->getInterfaceNames(),
-                'docblock'   => $this->parseDocBlock($refClass),
-                'constants'  => $this->getConstants($refClass, $refClass->getName()),
-                'properties' => $this->getProperties($refClass, $refClass->getName()),
-                'methods'    => $this->getMethods($refClass, $refClass->getName()),
-            ];
+            if (class_exists($fqnClass)) {
+                $refClass    = new \ReflectionClass($fqnClass);
+                $parentClass = $refClass->getParentClass();
+
+                $classData[$refClass->getNamespaceName()][$refClass->getShortName()] = [
+                    'name'       => $refClass->getShortName(),
+                    'fullname'   => $refClass->getName(),
+                    'file'       => str_replace($this->baseDir, '', $refClass->getFileName()),
+                    'extend'     => ($parentClass ? $parentClass->getName() : ''),
+                    'interfaces' => $refClass->getInterfaceNames(),
+                    'docblock'   => $this->parseDocBlock($refClass),
+                    'constants'  => $this->getConstants($refClass, $refClass->getName()),
+                    'properties' => $this->getProperties($refClass, $refClass->getName()),
+                    'methods'    => $this->getMethods($refClass, $refClass->getName()),
+                ];
+            }
         }
 
         $this->data = array_merge($this->data, $classData);
