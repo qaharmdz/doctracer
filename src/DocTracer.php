@@ -8,19 +8,27 @@ use phpDocumentor\Reflection\DocBlockFactory;
 use Michelf\MarkdownExtra;
 
 /**
- * Analyzing PHP class information and docBlock to generate API Documentation.
+ * Analyze PHP class and docBlock to generate API Documentation.
  *
- * @author    Mudzakkir
+ * DocTracer helps you to create meaningful API documentation reports. Reflecting PHP class information and show markdown formatted documentation on one page.
+ *
+ * How to use:
+ *
+ * ```php
+ * $tracer = new \Mdz\DocTracer($baseDir);
+ * $tracer->inspect($targetDir);
+ * echo $tracer->render();
+ * ```
+ * @link      [Github DocTracer](https://github.com/qaharmdz/doctracer)
+ *
+ * @author    Mudzakkir <me@mdzstack.com>
  * @copyright Copyright (c) 2021 Mudzakkir
- * @license   https://opensource.org/licenses/MIT
- * @link      https://github.com/qaharmdz/doctracer
+ * @license   [https://opensource.org/licenses/MIT](https://opensource.org/licenses/MIT)
  */
 class DocTracer
 {
     /**
-     * The DocTracer Version number.
-     *
-     * @var    string
+     * @var string
      */
     const VERSION = '0.7.1';
 
@@ -39,8 +47,6 @@ class DocTracer
     protected $data = [];
 
     /**
-     * Constructor.
-     *
      * @param string $baseDir
      */
     public function __construct(string $baseDir)
@@ -51,7 +57,7 @@ class DocTracer
     /**
      * Find, check and parse all PHP files.
      *
-     * In order to get Class reflection, autoloader must be available or class already included.
+     * PHP ReflectionClass require autoloader or class must exist.
      *
      * @param  string $targetDir Directory to check
      * @param  array  $exclude   Exclude directory
@@ -94,7 +100,7 @@ class DocTracer
     }
 
     /**
-     * Return reports information
+     * Return reports information.
      *
      * @return array
      */
@@ -294,7 +300,7 @@ class DocTracer
 
 
     /**
-     * Check the type of $value, and change to printable value.
+     * Check the type of reflection $value to printable value.
      *
      * Word "n/a" to differentiate between the assigned default value "null"
      * and the null returned by reflection when a default value is not assigned.
@@ -344,7 +350,7 @@ class DocTracer
     /**
      * Get DocBLock informations.
      *
-     * @param  \Reflector $ref Has the getDocComment() method
+     * @param  \Reflector $ref Has the `getDocComment()` method
      *
      * @return array
      */
@@ -395,13 +401,14 @@ class DocTracer
 
     /**
      * Render in complete HTML page.
+     * Available setting:
      *
-     * Available settind:
-     * - {title}        Page heading (h1) and meta title
-     * - {tagline}      Page heading tagline
-     * - {description}  Page meta desctiption
-     * - {footer}       Footer information
-     * - {customstyle}  Customize the report style
+     * - `{title}`        Page heading (h1) and meta title
+     * - `{tagline}`      Page heading tagline
+     * - `{footer}`       Footer information. Default: `{title} - {tagline}`
+     * - `{theme}`        Report theme. Default: `default`
+     * - `{theme_style}`  Customize the report style
+     * - `{template}`     Override `\Mdz\Doctracer::getTemplate()`
      *
      * @param  array  $setting
      *
@@ -411,9 +418,9 @@ class DocTracer
     {
         $vars = array_merge([
             '{template}'    => $this->getTemplate(),
-            '{footer}'      => '{title} - {tagline}',
             '{theme_style}' => '',
             '{theme}'       => 'default',
+            '{footer}'      => '{title} - {tagline}',
             '{tagline}'     => 'PHP ReflectionClass and API documentation',
             '{title}'       => 'DocTracer',
         ], $setting);
@@ -669,7 +676,7 @@ class DocTracer
     }
 
     /**
-     * Standarize Dococumentation HTML format.
+     * Standarize the documentation HTML format.
      *
      * The class, constant, property and method share the same HTML output.
      *
@@ -728,7 +735,7 @@ class DocTracer
     }
 
     /**
-     * Pretify documentation with Markdown
+     * Pretify documentation with Markdown.
      *
      * @link   [Markdown basic](https://daringfireball.net/projects/markdown/basics)
      * @link   [Markdown extra](https://michelf.ca/projects/php-markdown/extra/)
@@ -743,9 +750,9 @@ class DocTracer
     }
 
     /**
-     * An attempt to break a long qualified namespace
+     * An attempt to break a long qualified namespace.
+     * Available options:
      *
-     * Our options is to use:
      * - `&#8203;` zero-width space (U+200B)
      * - `<wbr>` word break
      *
@@ -759,7 +766,7 @@ class DocTracer
     }
 
     /**
-     * The reports default style.
+     * The reports style.
      *
      * @return string
      */
@@ -842,7 +849,7 @@ a:hover {
     text-decoration: underline
 }
 :not(pre)>code {
-    font-size: .9rem;
+    font-size: .84rem;
     color: #f53123;
     padding: 0 5px;
     background: rgba(0,0,0,.05);
