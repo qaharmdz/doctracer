@@ -9,7 +9,7 @@ Installation
 ------------
 
 ```bash
-composer require qaharmdz/doctracer
+composer require qaharmdz/doctracer --dev
 ```
 
 Usage
