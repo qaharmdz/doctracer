@@ -507,13 +507,13 @@ class DocTracer
                     . (
                         $class['extend']
                             ? '<div class="dt-class-extend">
-                                <span class="dt-class-modifier">extends</span> ' . $class['extend']
+                                <span class="dt-class-modifier">extends</span> ' . $this->wordBreak($class['extend'])
                             . '</div>'
                             : ''
                     ) . (
                         $class['interfaces']
                             ? '<div class="dt-class-interface">
-                                <span class="dt-class-modifier">implements</span> ' . implode(',', $class['interfaces'])
+                                <span class="dt-class-modifier">implements</span> ' . $this->wordBreak(implode(', ', $class['interfaces']))
                             . '</div>'
                             : ''
                     ) . '
@@ -632,7 +632,7 @@ class DocTracer
                     $params = [];
                     foreach ($method['params'] as $param) {
                         $params[] = '<div class="dt-param-row">'
-                            . ($param['type'] ? '<span class="dt-param-type">' . $param['type'] . '</span> ' : '')
+                            . ($param['type'] ? '<span class="dt-param-type">' . $this->wordBreak($param['type']) . '</span> ' : '')
                             . '<span class="dt-param-name">$' . $param['name'] . '</span>'
                             . ($param['default'] !== '' ? '<span class="dt-param-default"> = ' . $param['default'] . '</span>' : '');
                     }
@@ -732,6 +732,22 @@ class DocTracer
     protected function htmlEncode(string $content): string
     {
         return nl2br(htmlentities($content, ENT_QUOTES, 'UTF-8', false));
+    }
+
+    /**
+     * An attempt to break a long qualified namespace
+     *
+     * Our options is to use:
+     * - &#8203; zero-width space (U+200B)
+     * - <wbr> word break
+     *
+     * @param  string $words
+     *
+     * @return string
+     */
+    protected function wordBreak(string $words): string
+    {
+        return str_replace('\\', '&#8203;\\', $words);
     }
 
     /**
