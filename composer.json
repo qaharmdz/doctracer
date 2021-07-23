@@ -1,6 +1,6 @@
 {
     "name": "qaharmdz/doctracer",
-    "description": "PHP Class reflection and documentation generator",
+    "description": "DocTracer helps you to create meaningful API documentation reports. Reflecting PHP class information and show markdown formatted documentation on one page.",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -11,7 +11,8 @@
     ],
     "require": {
         "php": "^7.2 || ^8.0",
-        "phpdocumentor/reflection-docblock": "^5.2"
+        "phpdocumentor/reflection-docblock": "^5.2",
+        "michelf/php-markdown": "^1.9"
     },
     "autoload": {
         "psr-4": {
