@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Mdz;
 
 use phpDocumentor\Reflection\DocBlockFactory;
+use Michelf\MarkdownExtra;
 
 /**
  * Analyzing PHP class information and docBlock to generate API Documentation.
@@ -678,10 +679,10 @@ class DocTracer
      */
     protected function formatDocBlock(array $docBlock): string
     {
-        $docs = '<div class="dt-doc-summary">' . $this->htmlEncode($docBlock['summary']) . '</div>';
+        $docs = '<div class="dt-doc-summary">' . $this->markdown($docBlock['summary']) . '</div>';
 
         if ($docBlock['description']) {
-            $docs .= '<div class="dt-doc-description">' . $this->htmlEncode($docBlock['description']) . '</div>';
+            $docs .= '<div class="dt-doc-description">' . $this->markdown($docBlock['description']) . '</div>';
         }
 
         if ($docBlock['tags']) {
@@ -700,18 +701,18 @@ class DocTracer
                         $docs .= '<td class="dt-doc-tag-name">' . $tag['name'] . '</td>';
                         $docs .= '<td class="dt-doc-tag-type">' . $tagTypes . '</td>';
                         $docs .= '<td class="dt-doc-tag-variable">' . $tag['variable'] . '</td>';
-                        $docs .= '<td class="dt-doc-tag-description">' . $this->htmlEncode($tag['description']) . '</td>';
+                        $docs .= '<td class="dt-doc-tag-description">' . $this->markdown($tag['description']) . '</td>';
                         $docs .= '</tr>';
-                    } elseif (in_array($name, ['var', 'return'])) {
+                    } elseif (in_array($name, ['var', 'return', 'throws'])) {
                         $docs .= '<tr>';
                         $docs .= '<td class="dt-doc-tag-name">' . $tag['name'] . '</td>';
                         $docs .= '<td class="dt-doc-tag-type">' . $tagTypes . '</td>';
-                        $docs .= '<td class="dt-doc-tag-description">' . $this->htmlEncode($tag['description']) . '</td>';
+                        $docs .= '<td class="dt-doc-tag-description">' . $this->markdown($tag['description']) . '</td>';
                         $docs .= '</tr>';
                     } else {
                         $docs .= '<tr>';
                         $docs .= '<td class="dt-doc-tag-name">' . $tag['name'] . '</td>';
-                        $docs .= '<td class="dt-doc-tag-render">' . $this->htmlEncode($tag['render']) . '</td>';
+                        $docs .= '<td class="dt-doc-tag-render">' . $this->markdown($tag['render']) . '</td>';
                         $docs .= '</tr>';
                     }
                 }
@@ -723,23 +724,26 @@ class DocTracer
     }
 
     /**
-     * UTF-8 htmlentities() and nl2br()
+     * Pretify documentation with Markdown
+     *
+     * @link   [Markdown basic](https://daringfireball.net/projects/markdown/basics)
+     * @link   [Markdown extra](https://michelf.ca/projects/php-markdown/extra/)
      *
      * @param  string $content
      *
      * @return string
      */
-    protected function htmlEncode(string $content): string
+    protected function markdown(string $content): string
     {
-        return nl2br(htmlentities($content, ENT_QUOTES, 'UTF-8', false));
+        return MarkdownExtra::defaultTransform($content);
     }
 
     /**
      * An attempt to break a long qualified namespace
      *
      * Our options is to use:
-     * - &#8203; zero-width space (U+200B)
-     * - <wbr> word break
+     * - `&#8203;` zero-width space (U+200B)
+     * - `<wbr>` word break
      *
      * @param  string $words
      *
@@ -802,6 +806,9 @@ html {
     box-sizing: border-box;
     scroll-behavior: smooth;
 }
+* {
+    word-break: break-word;
+}
 *, *:before, *:after {
     box-sizing: inherit;
 }
@@ -809,6 +816,9 @@ body {
     margin: 0;
     padding: 0;
     background: #fdfdfd;
+}
+p {
+    margin: 0
 }
 a:active, a:hover {
     outline: 0
@@ -821,6 +831,25 @@ a {
 a:hover {
     color: #0f6ecd;
     text-decoration: underline
+}
+:not(pre)>code {
+    font-size: .9rem;
+    color: #f53123;
+    padding: 0 5px;
+    background: rgba(0,0,0,.05);
+    border-radius: 3px;
+}
+
+pre {
+    font-size: .9rem;
+    line-height: 1.4em;
+    color: #444;
+    -moz-tab-size: 4;
+    tab-size: 4;
+    overflow: auto;
+    padding: 6px 8px;
+    border-left: 4px solid rgba(0,0,0,.1);
+    background: rgba(0,0,0,.05);
 }
 
 .dt-wrapper {
@@ -843,6 +872,10 @@ a:hover {
     letter-spacing: -.5px;
 }
 
+.dt-table,
+dt-doc-tags-table {
+    table-layout: fixed;
+}
 .dt-table {
     font-size: 1rem;
     border-collapse: collapse;
