@@ -104,7 +104,7 @@ class DocTracer
      *
      * @return array
      */
-    public function getData(): array
+    public function getReports(): array
     {
         return $this->data;
     }
@@ -489,7 +489,7 @@ class DocTracer
         </thead>
         <tbody>';
 
-        foreach ($this->getData() as $namespace => $classes) {
+        foreach ($this->getReports() as $namespace => $classes) {
             $tableTr = '';
             $_iRowspanNamespace = 0;
 
