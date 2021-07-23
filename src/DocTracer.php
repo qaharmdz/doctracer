@@ -49,7 +49,7 @@ class DocTracer
     /**
      * @param string $baseDir
      */
-    public function __construct(string $baseDir)
+    public function __construct(string $baseDir = './')
     {
         $this->baseDir = rtrim($baseDir, '\\/') . DIRECTORY_SEPARATOR;
     }
