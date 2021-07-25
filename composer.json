@@ -2,6 +2,7 @@
     "name": "qaharmdz/doctracer",
     "description": "DocTracer helps you to create meaningful API documentation reports. Reflecting PHP class information and show markdown formatted documentation on one page.",
     "type": "library",
+    "keywords": ["php","docblocks"],
     "license": "MIT",
     "authors": [
         {
