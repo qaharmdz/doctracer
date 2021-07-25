@@ -4,6 +4,8 @@ DocTracer
 DocTracer helps you to create meaningful API documentation reports. 
 Reflecting PHP class information and show markdown formatted documentation on one page.
 
+Visit DocTracer [API Documentation](https://qaharmdz.github.io/doctracer/doctracer-api.html) to see the results.
+
 ![DocTracer preview](https://qaharmdz.github.io/doctracer/images/doctracer-theme-darkmoon-s.png)
 
 Installation
