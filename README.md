@@ -28,7 +28,7 @@ $tracer->inspect('./../src');
 $tracer->inspect('./Library/');
 ```
 
-## Inspection Results
+### Inspection Results
 
 Get the inspection results data.
 
@@ -37,7 +37,7 @@ $reports = $tracer->getResults();
 var_dump($reports);
 ```
 
-## HTML Report
+### HTML Report
 
 Output the HTML report.
 
@@ -49,11 +49,20 @@ echo $output = $tracer->render([
 ]);
 ```
 
-**Save the output to file**
+Save the output to file.
 
 ```php
 file_put_contents('example-api.html', $output);
 ```
 
+
+**Render options**
+
+- `title`      Page heading (h1) and meta title
+- `tagline`    Page heading tagline
+- `footer`     Footer information. _Default_: `{title} - {tagline}`
+- `theme`      Report theme. _Options_: `default`, `darkmoon`
+- `css`        Customize the report style
+- `template`   Custom template path
 
 > For more examples review the scripts in the [`/examples`](/examples) folder.
