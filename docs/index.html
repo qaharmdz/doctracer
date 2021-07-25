@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en" prefix="og: http://ogp.me/ns#">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DocTracer - PHP ReflectionClass and API Documentation Generator</title>
+<meta name="description" content="DocTracer helps you to create meaningful API documentation reports. Reflecting PHP class information and show markdown formatted documentation on one page.">
+
+<meta property="og:title" content="DocTracer - PHP ReflectionClass and API Documentation Generator" />
+<meta property="og:type" content="php.library" />
+<meta property="og:description" content="DocTracer helps you to create meaningful API documentation reports. Reflecting PHP class information and show markdown formatted documentation on one page." />
+<meta property="og:url" content="https://github.com/qaharmdz/doctracer/" />
+<meta property="og:image" content="images/doctracer-theme-darkmoon.png" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.7.1/dist/css/uikit.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.1.0/build/styles/default.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.1.0/build/styles/monokai-sublime.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.7.1/dist/js/uikit.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.1.0/build/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.1.0/build/languages/php.min.js"></script>
+
+<style>
+html {
+    font-size: 14px;
+    line-height:  1.6;
+    color: #333;
+    background: #fff;
+}
+pre {
+    padding: 3px;
+}
+h1, h2, h3, h4, h5, h6 {
+    font-family: inherit;
+}
+.font-consolas {
+    font-family: Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;;
+}
+
+.section-header {
+    color: #ddd;
+    background: #232425;
+    background: linear-gradient(154deg, #333 0, #232425 75%);
+    padding-top: 50px;
+}
+.section-header h1,
+.section-header h2 {
+    color: #fbfbfb;
+}
+.logo-text {
+    font-size: 2.3rem;
+    color: #e8e8e8;
+    font-weight: 300;
+}
+.logo-text span {
+    color: #fbfbfb;
+    font-weight: 500;
+}
+.section-header h1 {
+    font-size: 2.4rem;
+}
+.main-desc {
+    font-size: 1.15rem;
+}
+
+.section-ribbon {
+    background: #256ff1;
+    box-shadow: inset 0 -2px 10px -2px rgb(0 0 0 / 40%)
+}
+.uk-button-dark {
+    color: #eee;
+    background-color: #333;
+    border: 1px solid transparent;
+}
+.uk-button-dark:hover {
+    background-color: #3b3b3b;
+}
+
+.section-instruction {
+    background: #faf9f8;
+}
+.section-instruction h2,
+.section-instruction h3,
+.section-instruction h4 {
+    letter-spacing: -1px;
+}
+</style>
+<script>hljs.highlightAll();</script>
+</head>
+
+<body>
+<div class="section-header uk-text-center">
+    <div class="uk-container uk-container-medium">
+        <h2 class="logo-text">Doc<span>Tracer</span></h1>
+        <h1>PHP ReflectionClass and API Documentation Generator</h2>
+        <p class="main-desc">
+            DocTracer helps you to create meaningful API documentation reports.<br>
+            Reflecting PHP class information and show markdown formatted documentation on one page.
+        </p>
+
+        <div class="uk-container uk-container-small uk-text-center uk-margin-large-top" style="max-width:960px;margin-bottom:-30px;">
+            <img class="" src="images/doctracer-theme-darkmoon-s.png" alt="DocTracer darkmoon theme" style="box-shadow:0px -1px 15px #344665;border: 1px solid #242729;">
+        </div>
+    </div>
+</div>
+
+<div class="section-ribbon uk-section uk-section-small uk-section-primary font-consolas uk-text-center" style="padding-top:70px;">
+    <h4 style="color: #fff; text-shadow: 1px 1px 1px rgb(0 0 0 / 10%);">DocTracer v.0.8.0 <span style="opacity:.7">|</span> <a href="doctracer-api.html" title="DocTracer API documentation">API Documentation</a></h4>
+    <p style="padding-top:20px;padding-bottom:20px;">
+        <a class="uk-button uk-button-dark uk-margin-small-left" href="https://github.com/qaharmdz/doctracer/releases" title="DocTracer release package">Download</a>
+        <a class="uk-button uk-button-primary" href="https://github.com/qaharmdz/doctracer" title="DocTracer source code">
+            <svg aria-hidden="true" viewBox="0 0 16 16" version="1.1" data-view-component="true" height="20" width="20" style="margin-top:-5px;">
+            <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
+            </svg>
+            Source
+        </a>
+    </p>
+</div>
+
+<div class="section-instruction uk-section uk-section-medium uk-section-default font-consolas">
+    <div class="uk-container uk-container-small">
+        <h2>Installation</h2>
+        <pre><code class="language-bash">composer require qaharmdz/doctracer --dev</code></pre>
+
+        <h2>Usage</h2>
+        <p>Create the DocTracer instance.</p>
+        <pre><code class="language-php">$tracer = new \Mdz\DocTracer($baseDirectory = './');</code></pre>
+
+        <p>Inspect all PHP codes inside target directory (relative to the $baseDir).</p>
+        <pre><code class="language-php">$tracer->inspect('./../src');
+$tracer->inspect('./Library/');</code></pre>
+
+        <h3>Inspection Results</h3>
+        <p>Get the inspection results data.</p>
+        <pre><code class="language-php">$reports = $tracer->getResults();
+var_dump($reports);</code></pre>
+
+
+        <h3>HTML Report</h3>
+        <p>Output the HTML report.</p>
+        <pre><code class="language-php">echo $output = $tracer->render([
+            'title'   => 'DocTracer Test',
+            'tagline' => 'PHP ReflectionClass and API documentation',
+            'theme'   => 'darkmoon',
+        ]);
+        </code></pre>
+
+        <p>Save the output to file</p>
+
+        <pre><code class="language-php">file_put_contents('example-api.html', $output);</code></pre>
+
+        <h3>Render Setting</h3>
+        <ul>
+            <li><b>title</b> - Page heading (h1) and meta title</li>
+            <li><b>tagline</b> - Page heading tagline</li>
+            <li><b>footer</b> - Footer information. Default: <code>{title} - {tagline}</code></li>
+            <li><b>theme</b> - Report theme. Options: <code>default</code>, <code>darkmoon</code></li>
+            <li><b>css</b> - Customize the report style</li>
+            <li><b>template</b> - Custom template path</li>
+        </ul>
+
+        <h3>License (MIT)</h3>
+
+        <p>Copyright (c) 2021 Mudzakkir.</p>
+        <p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
+        <p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
+        <p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+
+
+        <hr class="uk-margin-medium" style="margin-left:-20px; margin-right:-20px; border-top:4px double #ccc;">
+
+        <p class="uk-text-center uk-text-meta" style="color:#777;">Copyright (c) 2021 Mudzakkir. MIT License.</p>
+    </div>
+</div>
+
+</body>
+</html>

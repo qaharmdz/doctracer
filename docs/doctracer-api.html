@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en" class="docTracer dt-th-darkmoon">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DocTracer API Documentation</title>
+<meta name="description" content="DocTracer helps you to create meaningful API documentation reports. Reflecting PHP class information and show markdown formatted documentation on one page.">
+<style>
+:root {
+    --font-family-read: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --font-family-code: Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
+    --base-font-size: 13px;
+    --base-color: #333;
+    --base-background: #fff;
+    --heading-color: var(--base-color);
+}
+
+
+/* Base
+ * ==================================== */
+
+* {
+    word-break: break-word;
+}
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+html {
+    font-family: var(--font-family-code);
+    font-size: var(--base-font-size);
+    line-height: 1.4rem;
+    color: var(--base-color);
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-size-adjust: 100%;
+}
+body {
+    margin: 0;
+    padding: 0;
+    background: var(--base-background);
+}
+a:active, a:hover {
+    outline: 0
+}
+a {
+    color: #1e87f0;
+    text-decoration: none;
+    cursor: pointer
+}
+a:hover {
+    color: #0f6ecd;
+    text-decoration: underline
+}
+table,
+table td {
+    margin: 0;
+    padding: 5px;
+}
+:not(pre)>code {
+    font-size: .84rem;
+    color: var(--th-color-variable);
+    padding: 2px 5px;
+    background: rgba(0,0,0,.05);
+    border-radius: 3px;
+}
+pre {
+    font-size: .9rem;
+    line-height: 1.4em;
+    -moz-tab-size: 4;
+    tab-size: 4;
+    overflow: auto;
+    padding: 6px 9px;
+    border-left: 3px solid #5e58b3;
+    background: rgba(0,0,0, .03);
+}
+p, ul, ol, pre {
+    margin: 0 0 8px 0;
+}
+* + p, * + ul, * + ol, * + pre {
+    margin-top: 8px;
+}
+
+ul, ol {
+    padding-left: 25px;
+}
+
+
+/* Layout
+ * ==================================== */
+
+.dt-container {
+    min-width:480px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem 2rem 4rem;
+}
+.dt-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+}
+[class*='dt-col'] {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+.dt-col-expand {
+  flex: 1;
+  min-width: 1px;
+}
+
+.show {
+    display: block !important;
+}
+.hide {
+    display: none !important;
+}
+.dt-mobile-hide {
+    display: none;
+}
+.dt-mobile-show {
+    display: block;
+}
+
+/* Mobile only */
+@media (max-width: 960px) {
+    .dt-mobile-display-block {
+        display: block;
+    }
+}
+
+/* Tablet */
+@media (min-width: 960px) {
+    .dt-mobile-hide {
+        display: block;
+    }
+    .dt-mobile-show {
+        display: none;
+    }
+
+}
+
+/* Tablet only */
+@media (min-width: 960px) and (max-width: 1199px) {
+    .dt-tablet-hide {
+        display: none;
+    }
+}
+
+
+/* Page
+ * ==================================== */
+
+.dt-head {
+    font-family: var(--font-family-read);
+    font-size: 2.5rem;
+    font-weight: 400;
+    line-height: 1.2em;
+    color: var(--heading-color);
+    margin: 0 0 15px;
+}
+.dt-tagline {
+    font-size: 1.65rem;
+    line-height: 1.2em;
+    color: #666;
+    font-weight: 300;
+    letter-spacing: -.5px;
+}
+
+.dt-footer {
+    font-family: var(--font-family-read);
+    font-size: .96rem;
+    color: #666;
+    line-height: 1.4em;
+    margin-top: 10px;
+}
+.dt-footer a {
+    color: #777;
+    text-decoration: underline dotted;
+}
+.dt-footer a:hover {
+    color: #1d66d2;
+    font-style: italic;
+}
+
+.dt-toTop {
+    position: fixed;
+    right: 0;
+    bottom: 30px;
+
+    color: #666;
+    background: #f4f4f4;
+    text-decoration: none;
+    line-height: 1.2em;
+    padding: 3px 6px;
+    border-bottom: 2px solid #999;
+    border-radius: 10px 0 0 12px;
+}
+.dt-toTop:hover {
+    color: #1d66d2;
+    text-decoration: none;
+    border-bottom: 1px solid #777;
+}
+
+
+/* Datatable
+ * ==================================== */
+
+ :root {
+    --base-border-color: #d4d4d4;
+    --base-border-color-darken: #c4c4c4;
+}
+
+.dt-col-content {
+    padding: 5px 6px;
+}
+
+.dt-row.th-row-namespace > .dt-col-namespace,
+.dt-row.th-row-class {
+    border-top: 3px solid var(--base-border-color-darken);
+}
+.dt-row.th-row-class .dt-col-content {
+    height: 100%;
+}
+.dt-row.th-row-member,
+.dt-row.th-row-docs {
+    border-top: 1px solid var(--base-border-color-darken);
+}
+
+/* Mobile only */
+@media (max-width: 960px) {
+    .th-row-namespace .th-row-class {
+        margin-top: 20px;
+        border-left: 1px solid var(--base-border-color);
+        border-right: 1px solid var(--base-border-color);
+        border-bottom: 1px solid var(--base-border-color);
+    }
+}
+
+/* Tablet */
+@media (min-width: 960px) {
+    .dt-col-namespace {
+        width: 170px;
+    }
+    .dt-col-member  {
+        width: 200px;
+    }
+    .dt-row.th-row-namespace {
+        border-top: 3px solid var(--base-border-color-darken);
+        border-left: 1px solid var(--base-border-color);
+        border-right: 1px solid var(--base-border-color);
+    }
+    .dt-row.th-row-namespace:last-child {
+        border-bottom: 1px solid var(--base-border-color);
+    }
+    .dt-row.th-row-class .dt-col-content {
+        border-left: 1px solid var(--base-border-color);
+    }
+}
+
+/* Desktop */
+@media (min-width: 1200px) {
+    .dt-col-namespace {
+        width: 170px;
+    }
+    .dt-col-class {
+        width: 200px;
+        border-left: 0;
+    }
+    .dt-col-member  {
+        width: 300px;
+    }
+    .dt-row.th-row-docs {
+        border-top: 0;
+    }
+}
+
+.dt-sticky,
+.dt-sticky-desktop {
+    position: sticky;
+    top: 0;
+}
+.dt-sticky-desktop {
+    top: 5px;
+}
+
+.th-col-class span:not(:empty),
+.th-col-constant span:not(:empty),
+.th-col-property span:not(:empty),
+.th-col-method span:not(:empty) {
+    display: inline-block;
+}
+
+.row-method-param,
+.row-method-param .key-value-pair {
+    display: block !important;
+}
+.row-method-param {
+    margin-left: 12px;
+}
+
+.th-col-documentation {
+    font-size: .96rem;
+    line-height: 1.3em;
+    padding: 1px 2px;
+}
+.dt-doc-tags-table {
+    width: 100%;
+}
+
+.dt-doc-tags-table p,
+.dt-doc-tags-table ul,
+.dt-doc-tags-table ol,
+.dt-doc-tags-table pre {
+    margin: 0;
+}
+.dt-doc-description p {
+    margin-bottom: 5px;
+}
+* + .dt-doc-tags-table {
+    margin-top: 1px;
+}
+
+.dt-doc-tags-table,
+.dt-doc-tags-table td {
+    padding: 0;
+    vertical-align: top;
+}
+
+
+ /* Styling
+ * ==================================== */
+
+:root {
+    --th-row-class-header: #353434;
+    --th-row-odd: var(--base-background);
+    --th-row-even: rgba(0,0,0,.03);
+}
+
+.dt-row.row-odd-even:nth-of-type(odd) {
+    background: var(--th-row-odd);
+}
+.dt-row.row-odd-even:nth-of-type(even) {
+    background: var(--th-row-even);
+}
+
+.dt-row.row-odd-even:nth-of-type(odd) .row-odd-even {
+    background: var(--th-row-even);
+}
+.dt-row.row-odd-even:nth-of-type(odd) .row-odd-even:nth-of-type(even) {
+    background: var(--th-row-odd);
+}
+.dt-row.row-odd-even:nth-of-type(even) .row-odd-even {
+    background: var(--th-row-odd);
+}
+.dt-row.row-odd-even:nth-of-type(even) .row-odd-even:nth-of-type(even) {
+    background: var(--th-row-even);
+}
+
+/* Mobile only */
+@media (max-width: 960px) {
+    .th-col-documentation {
+        padding: 6px 2px;
+        border-top: 1px dashed var(--base-border-color);
+    }
+    .th-row-docs .th-col-documentation {
+        border-top: 0;
+    }
+}
+
+/* Lower than Desktop */
+@media (max-width: 1199px) {
+    .th-row-namespace .dt-col-class {
+        background: var(--th-row-class-header);
+    }
+}
+
+/* Token style */
+
+:root {
+    --th-color-name: #9c27b0;
+    --th-color-modifier: #ff8000;
+    --th-color-type: #0a75e1;
+    --th-color-variable: #d32f2f;
+    --th-color-tag: #2b9000;
+    --th-token-punctuation: #a4a4a4;
+}
+
+.th-token-name {
+    color: var(--th-color-name);
+}
+.th-token-modifier {
+    color: var(--th-color-modifier);
+}
+.th-token-keyword,
+.th-token-variable {
+    color: var(--th-color-variable);
+}
+.th-token-type {
+    color: var(--th-color-type);
+}
+.th-token-return {
+    color: var(--th-color-tag);
+    font-style: italic;
+}
+.th-token-punctuation {
+    color: var(--th-token-punctuation);
+}
+
+.dt-doc-tag-name {
+    color: var(--th-color-tag);
+    width: 90px;
+}
+.dt-doc-tag-type {
+    width: 115px;
+    color: var(--th-color-type);
+}
+.dt-doc-tag-variable {
+    color: var(--th-color-variable);
+    width: 100px;
+}
+
+/* === Theme */
+
+/* Theme "default" */
+.dt-th-default .dt-col-namespace .th-token-name,
+.dt-th-default .dt-col-class .th-token-name,
+.dt-th-default .class-extend .th-token-type {
+    color: var(--th-color-tag);
+}
+
+/* Theme "darkmoon" */
+.dt-th-darkmoon {
+    --base-color: #888;
+    --base-background: #1d2022;
+    --base-border-color: #333;
+    --base-border-color-darken: #333;
+    --heading-color: #e8e8e8;
+    --th-row-class-header: #121618;
+    --th-row-even: rgba(255,255,255,.03);
+
+    --th-color-name: #b432ca;
+    --th-color-modifier: #e39545;
+    --th-color-type: #478ed2;
+    --th-color-variable: #d44747;
+    --th-color-tag: #459f1e;
+    --th-token-punctuation: #5b5b5b;
+}
+.dt-th-darkmoon :not(pre)>code {
+    background: rgba(205,217,229,.05);
+}
+.dt-th-darkmoon pre {
+    background: rgba(255,255,555, .04);
+}
+.dt-th-darkmoon .dt-col-namespace .th-token-name,
+.dt-th-darkmoon .dt-col-class .th-token-name,
+.dt-th-darkmoon .class-extend .th-token-type {
+    color: var(--th-color-tag);
+}
+</style>
+</head>
+
+<body>
+<div id="docTracer" class="dt-container">
+    <h1 class="dt-head">DocTracer <span class="dt-tagline dt-mobile-display-block">PHP ReflectionClass and API Documentation Generator</span></h1>
+
+    <div class="dt-datatable">
+        <div class="dt-mobile-hide hide">
+            <div class="dt-row th-row-header" style="background:#555;color:#fbfbfb">
+                <div class="dt-col-namespace">
+                    <div class="dt-col-content">Namespace</div>
+                </div>
+                <div class="dt-col-expand">
+
+                    <div class="dt-row">
+                        <div class="dt-col-class">
+                            <div class="dt-col-content">Class</div>
+                        </div>
+                        <div class="dt-col-expand dt-tablet-hide">
+
+                            <div class="dt-row">
+                                <div class="dt-col-member">
+                                    <div class="dt-col-content">Constant | Property | Method</div>
+                                </div>
+                                <div class="dt-col-expand">
+                                    <div class="dt-col-content">Documentation</div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+                <div class="dt-row th-row-namespace">
+            <div class="dt-col-namespace dt-mobile-hide">
+                <div class="dt-col-content th-col-namespace dt-sticky">
+                    <span class="th-token-keyword">namespace</span>
+                    <span class="th-token-name">Mdz</span>
+                </div>
+            </div>
+            <div class="dt-col-expand">
+
+                                <div class="dt-row th-row-class row-odd-even">
+                    <div class="dt-col-class dt-sticky">
+                        <div class="dt-col-content">
+                            <div class="dt-col-namespace dt-mobile-show">
+                                <span class="th-token-keyword">namespace</span>
+                                <span class="th-token-name">Mdz</span>
+                            </div>
+                            <div class="th-col-class dt-sticky-desktop">
+                                <span class="th-token-modifier">
+                                                                        class                                </span>
+                                <span class="th-token-name">DocTracer</span>
+                                                                                            </div>
+                        </div>
+                    </div>
+                    <div class="dt-col-expand">
+
+                                                <div class="dt-row row-odd-even th-row-docs">
+                            <div class="dt-col-expand">
+                                <div class="dt-col-content">
+                                    <div class="th-col-documentation">
+                                        <div class="dt-doc-description"><p>Analyze PHP class and docBlock to generate API Documentation.</p>
+<p>DocTracer helps you to create meaningful API documentation reports.
+Reflecting PHP class information and show markdown formatted documentation on one page.</p>
+
+<p>How to use:</p>
+
+<pre><code class="php">$tracer = new \Mdz\DocTracer($baseDir);
+$tracer-&gt;inspect($targetDir);
+echo $tracer-&gt;render();
+</code></pre>
+</div><table class="dt-doc-tags-table dt-tags-table-link"><tr><td class="dt-doc-tag-name">@link</td><td class="dt-doc-tag-render"><p><a href="https://github.com/qaharmdz/doctracer">DocTracer</a></p>
+</td></tr></table><table class="dt-doc-tags-table dt-tags-table-author"><tr><td class="dt-doc-tag-name">@author</td><td class="dt-doc-tag-render"><p>Mudzakkir <a href="&#109;&#97;&#x69;&#108;&#x74;&#111;&#x3a;&#109;&#x65;&#64;m&#x64;&#122;&#x73;&#116;&#x61;&#99;&#x6b;&#46;&#x63;&#111;&#109;">&#109;&#x65;&#64;m&#x64;&#122;&#x73;&#116;&#x61;&#99;&#x6b;&#46;&#x63;&#111;&#109;</a></p>
+</td></tr></table><table class="dt-doc-tags-table dt-tags-table-copyright"><tr><td class="dt-doc-tag-name">@copyright</td><td class="dt-doc-tag-render"><p>Copyright (c) 2021 Mudzakkir</p>
+</td></tr></table><table class="dt-doc-tags-table dt-tags-table-license"><tr><td class="dt-doc-tag-name">@license</td><td class="dt-doc-tag-render"><p><a href="https://opensource.org/licenses/MIT">https://opensource.org/licenses/MIT</a></p>
+</td></tr></table>                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                                                <div class="dt-row row-odd-even th-row-member th-row-constant">
+                            <div class="dt-col-member ">
+                                <div class="dt-col-content th-col-constant">
+                                    <span class="th-token-modifier">public</span>
+                                    <span class="th-token-keyword">const</span>
+                                    <span class="key-value-pair">
+                                                                                    <span class="th-token-name">VERSION</span> = <span class="th-token-value">'0.8.0'</span><span class="th-token-punctuation">;</span>
+                                                                            </span>
+                                </div>
+                            </div>
+                                                        <div class="dt-col-expand">
+                                <div class="dt-col-content">
+                                    <div class="th-col-documentation">
+                                        <table class="dt-doc-tags-table dt-tags-table-var"><tr><td class="dt-doc-tag-name">@var</td><td class="dt-doc-tag-type">string</td><td class="dt-doc-tag-description">
+</td></tr></table>                                    </div>
+                                </div>
+                            </div>
+                                                    </div>
+                        
+                                                <div class="dt-row row-odd-even th-row-member th-row-property">
+                            <div class="dt-col-member ">
+                                <div class="dt-col-content th-col-property">
+                                    <span class="th-token-modifier">protected</span>
+                                    <span class="th-token-type"></span>
+                                    <span class="key-value-pair">
+                                                                                    <span class="th-token-name">$baseDir</span> = <span class="th-token-value">''</span><span class="th-token-punctuation">;</span>
+                                                                            </span>
+                                </div>
+                            </div>
+                                                        <div class="dt-col-expand">
+                                <div class="dt-col-content">
+                                    <div class="th-col-documentation">
+                                        <div class="dt-doc-description"><p>Base directory path.</p>
+
+</div><table class="dt-doc-tags-table dt-tags-table-var"><tr><td class="dt-doc-tag-name">@var</td><td class="dt-doc-tag-type">string</td><td class="dt-doc-tag-description">
+</td></tr></table>                                    </div>
+                                </div>
+                            </div>
+                                                    </div>
+                                                <div class="dt-row row-odd-even th-row-member th-row-property">
+                            <div class="dt-col-member ">
+                                <div class="dt-col-content th-col-property">
+                                    <span class="th-token-modifier">protected</span>
+                                    <span class="th-token-type"></span>
+                                    <span class="key-value-pair">
+                                                                                    <span class="th-token-name">$data</span> = <span class="th-token-value">[]</span><span class="th-token-punctuation">;</span>
+                                                                            </span>
+                                </div>
+                            </div>
+                                                        <div class="dt-col-expand">
+                                <div class="dt-col-content">
+                                    <div class="th-col-documentation">
+                                        <div class="dt-doc-description"><p>Holds all reports data.</p>
+
+</div><table class="dt-doc-tags-table dt-tags-table-var"><tr><td class="dt-doc-tag-name">@var</td><td class="dt-doc-tag-type">array</td><td class="dt-doc-tag-description">
+</td></tr></table>                                    </div>
+                                </div>
+                            </div>
+                                                    </div>
+                        
+                                                <div class="dt-row row-odd-even th-row-member th-row-method">
+                            <div class="dt-col-member ">
+                                <div class="dt-col-content th-col-method">
+                                    <span class="th-token-modifier">public</span>
+                                    <span class="th-token-name">__construct</span> (
+                                                                        <span class="row-method-param">
+                                                                                                                            <span class="key-value-pair">
+                                                                                                    <span class="th-token-type">string</span>
+                                                                                                                                                    <span class="th-token-variable">$baseDir</span> <span class="th-token-value">= './'</span><span class="th-token-punctuation">,</span>
+                                                                                            </span>
+                                                                            </span>
+                                                                        )
+                                </div>
+                            </div>
+                                                        <div class="dt-col-expand">
+                                <div class="dt-col-content">
+                                    <div class="th-col-documentation">
+                                        <table class="dt-doc-tags-table dt-tags-table-param"><tr><td class="dt-doc-tag-name">@param</td><td class="dt-doc-tag-type">string</td><td class="dt-doc-tag-variable">$baseDir</td><td class="dt-doc-tag-description">
+</td></tr></table>                                    </div>
+                                </div>
+                            </div>
+                                                    </div>
+                                                <div class="dt-row row-odd-even th-row-member th-row-method">
+                            <div class="dt-col-member ">
+                                <div class="dt-col-content th-col-method">
+                                    <span class="th-token-modifier">public</span>
+                                    <span class="th-token-name">inspect</span> (
+                                                                        <span class="row-method-param">
+                                                                                                                            <span class="key-value-pair">
+                                                                                                    <span class="th-token-type">string</span>
+                                                                                                                                                    <span class="th-token-variable">$targetDir</span><span class="th-token-punctuation">,</span>
+                                                                                            </span>
+                                                                                    <span class="key-value-pair">
+                                                                                                    <span class="th-token-type">array</span>
+                                                                                                                                                    <span class="th-token-variable">$exclude</span> <span class="th-token-value">= []</span><span class="th-token-punctuation">,</span>
+                                                                                            </span>
+                                                                            </span>
+                                                                        )<span><span class="th-token-punctuation">:</span> <span class="th-token-return">Mdz\DocTracer</span></span>
+                                </div>
+                            </div>
+                                                        <div class="dt-col-expand">
+                                <div class="dt-col-content">
+                                    <div class="th-col-documentation">
+                                        <div class="dt-doc-description"><p>Find, check and parse all PHP files.</p>
+<p>PHP ReflectionClass require autoloader or class must exist.</p>
+</div><table class="dt-doc-tags-table dt-tags-table-param"><tr><td class="dt-doc-tag-name">@param</td><td class="dt-doc-tag-type">string</td><td class="dt-doc-tag-variable">$targetDir</td><td class="dt-doc-tag-description"><p>Directory to check</p>
+</td></tr><tr><td class="dt-doc-tag-name">@param</td><td class="dt-doc-tag-type">array</td><td class="dt-doc-tag-variable">$exclude</td><td class="dt-doc-tag-description"><p>Exclude directory</p>
+</td></tr></table><table class="dt-doc-tags-table dt-tags-table-return"><tr><td class="dt-doc-tag-name">@return</td><td class="dt-doc-tag-type">\Mdz&#8203;\DocTracer</td><td class="dt-doc-tag-description">
+</td></tr></table>                                    </div>
+                                </div>
+                            </div>
+                                                    </div>
+                                                <div class="dt-row row-odd-even th-row-member th-row-method">
+                            <div class="dt-col-member ">
+                                <div class="dt-col-content th-col-method">
+                                    <span class="th-token-modifier">public</span>
+                                    <span class="th-token-name">getResults</span> (
+                                                                        )<span><span class="th-token-punctuation">:</span> <span class="th-token-return">array</span></span>
+                                </div>
+                            </div>
+                                                        <div class="dt-col-expand">
+                                <div class="dt-col-content">
+                                    <div class="th-col-documentation">
+                                        <div class="dt-doc-description"><p>Return reports information.</p>
+
+</div><table class="dt-doc-tags-table dt-tags-table-return"><tr><td class="dt-doc-tag-name">@return</td><td class="dt-doc-tag-type">array</td><td class="dt-doc-tag-description">
+</td></tr></table>                                    </div>
+                                </div>
+                            </div>
+                                                    </div>
+                                                <div class="dt-row row-odd-even th-row-member th-row-method">
+                            <div class="dt-col-member ">
+                                <div class="dt-col-content th-col-method">
+                                    <span class="th-token-modifier">protected</span>
+                                    <span class="th-token-name">phpFinder</span> (
+                                                                        <span class="row-method-param">
+                                                                                                                            <span class="key-value-pair">
+                                                                                                    <span class="th-token-type">string</span>
+                                                                                                                                                    <span class="th-token-variable">$path</span><span class="th-token-punctuation">,</span>
+                                                                                            </span>
+                                                                                    <span class="key-value-pair">
+                                                                                                    <span class="th-token-type">array</span>
+                                                                                                                                                    <span class="th-token-variable">$exclude</span> <span class="th-token-value">= []</span><span class="th-token-punctuation">,</span>
+                                                                                            </span>
+                                                                            </span>
+                                                                        )<span><span class="th-token-punctuation">:</span> <span class="th-token-return">Iterator</span></span>
+                                </div>
+                            </div>
+                                                        <div class="dt-col-expand">
+                                <div class="dt-col-content">
+                                    <div class="th-col-documentation">
+                                        <div class="dt-doc-description"><p>Find PHP files inside directory recursively.</p>
+
+</div><table class="dt-doc-tags-table dt-tags-table-param"><tr><td class="dt-doc-tag-name">@param</td><td class="dt-doc-tag-type">string</td><td class="dt-doc-tag-variable">$path</td><td class="dt-doc-tag-description">
+</td></tr><tr><td class="dt-doc-tag-name">@param</td><td class="dt-doc-tag-type">array</td><td class="dt-doc-tag-variable">$exclude</td><td class="dt-doc-tag-description">
+</td></tr></table><table class="dt-doc-tags-table dt-tags-table-return"><tr><td class="dt-doc-tag-name">@return</td><td class="dt-doc-tag-type">\Iterator</td><td class="dt-doc-tag-description"><p>of \SplFileInfo</p>
+</td></tr></table>                                    </div>
+                                </div>
+                            </div>
+                                                    </div>
+                                                <div class="dt-row row-odd-even th-row-member th-row-method">
+                            <div class="dt-col-member ">
+                                <div class="dt-col-content th-col-method">
+                                    <span class="th-token-modifier">protected</span>
+                                    <span class="th-token-name">parseNamespace</span> (
+                                                                        <span class="row-method-param">
+                                                                                                                            <span class="key-value-pair">
+                                                                                                    <span class="th-token-type">string</span>
+                                                                                                                                                    <span class="th-token-variable">$content</span><span class="th-token-punctuation">,</span>
+                                                                                            </span>
+                                                                            </span>
+                                                                        )<span><span class="th-token-punctuation">:</span> <span class="th-token-return">string</span></span>
+                                </div>
+                            </div>
+                                                        <div class="dt-col-expand">
+                                <div class="dt-col-content">
+                                    <div class="th-col-documentation">
+                                        <div class="dt-doc-description"><p>Get fully qualified namespace from content.</p>
+
+</div><table class="dt-doc-tags-table dt-tags-table-param"><tr><td class="dt-doc-tag-name">@param</td><td class="dt-doc-tag-type">string</td><td class="dt-doc-tag-variable">$content</td><td class="dt-doc-tag-description">
+</td></tr></table><table class="dt-doc-tags-table dt-tags-table-return"><tr><td class="dt-doc-tag-name">@return</td><td class="dt-doc-tag-type">string</td><td class="dt-doc-tag-description"><p>Fully qualified namespace</p>
+</td></tr></table>                                    </div>
+                                </div>
+                            </div>
+                                                    </div>
+                                                <div class="dt-row row-odd-even th-row-member th-row-method">
+                            <div class="dt-col-member ">
+                                <div class="dt-col-content th-col-method">
+                                    <span class="th-token-modifier">protected</span>
+                                    <span class="th-token-name">getConstants</span> (
+                                                                        <span class="row-method-param">
+                                                                                                                            <span class="key-value-pair">
+                                                                                                    <span class="th-token-type">ReflectionClass</span>
+                                                                                                                                                    <span class="th-token-variable">$refClass</span><span class="th-token-punctuation">,</span>
+                                                                                            </span>
+                                                                                    <span class="key-value-pair">
+                                                                                                    <span class="th-token-type">string</span>
+                                                                                                                                                    <span class="th-token-variable">$fqnClass</span><span class="th-token-punctuation">,</span>
+                                                                                            </span>
+                                                                            </span>
+                                                                        )<span><span class="th-token-punctuation">:</span> <span class="th-token-return">array</span></span>
+                                </div>
+                            </div>
+                                                        <div class="dt-col-expand">
+                                <div class="dt-col-content">
+                                    <div class="th-col-documentation">
+                                        <div class="dt-doc-description"><p>Get class constants information.</p>
+
+</div><table class="dt-doc-tags-table dt-tags-table-param"><tr><td class="dt-doc-tag-name">@param</td><td class="dt-doc-tag-type">\ReflectionClass</td><td class="dt-doc-tag-variable">$refClass</td><td class="dt-doc-tag-description">
+</td></tr><tr><td class="dt-doc-tag-name">@param</td><td class="dt-doc-tag-type">string</td><td class="dt-doc-tag-variable">$fqnClass</td><td class="dt-doc-tag-description">
+</td></tr></table><table class="dt-doc-tags-table dt-tags-table-return"><tr><td class="dt-doc-tag-name">@return</td><td class="dt-doc-tag-type">array</td><td class="dt-doc-tag-description">
+</td></tr></table>                                    </div>
+                                </div>
+                            </div>
+                                                    </div>
+                                                <div class="dt-row row-odd-even th-row-member th-row-method">
+                            <div class="dt-col-member ">
+                                <div class="dt-col-content th-col-method">
+                                    <span class="th-token-modifier">protected</span>
+                                    <span class="th-token-name">getProperties</span> (
+                                                                        <span class="row-method-param">
+                                                                                                                            <span class="key-value-pair">
+                                                                                                    <span class="th-token-type">ReflectionClass</span>
+                                                                                                                                                    <span class="th-token-variable">$refClass</span><span class="th-token-punctuation">,</span>
+                                                                                            </span>
+                                                                                    <span class="key-value-pair">
+                                                                                                    <span class="th-token-type">string</span>
+                                                                                                                                                    <span class="th-token-variable">$fqnClass</span><span class="th-token-punctuation">,</span>
+                                                                                            </span>
+                                                                            </span>
+                                                                        )<span><span class="th-token-punctuation">:</span> <span class="th-token-return">array</span></span>
+                                </div>
+                            </div>
+                                                        <div class="dt-col-expand">
+                                <div class="dt-col-content">
+                                    <div class="th-col-documentation">
+                                        <div class="dt-doc-description"><p>Get class properties information.</p>
+
+</div><table class="dt-doc-tags-table dt-tags-table-param"><tr><td class="dt-doc-tag-name">@param</td><td class="dt-doc-tag-type">\ReflectionClass</td><td class="dt-doc-tag-variable">$refClass</td><td class="dt-doc-tag-description">
+</td></tr><tr><td class="dt-doc-tag-name">@param</td><td class="dt-doc-tag-type">string</td><td class="dt-doc-tag-variable">$fqnClass</td><td class="dt-doc-tag-description">
+</td></tr></table><table class="dt-doc-tags-table dt-tags-table-return"><tr><td class="dt-doc-tag-name">@return</td><td class="dt-doc-tag-type">array</td><td class="dt-doc-tag-description">
+</td></tr></table>                                    </div>
+                                </div>
+                            </div>
+                                                    </div>
+                                                <div class="dt-row row-odd-even th-row-member th-row-method">
+                            <div class="dt-col-member ">
+                                <div class="dt-col-content th-col-method">
+                                    <span class="th-token-modifier">protected</span>
+                                    <span class="th-token-name">getMethods</span> (
+                                                                        <span class="row-method-param">
+                                                                                                                            <span class="key-value-pair">
+                                                                                                    <span class="th-token-type">ReflectionClass</span>
+                                                                                                                                                    <span class="th-token-variable">$refClass</span><span class="th-token-punctuation">,</span>
+                                                                                            </span>
+                                                                                    <span class="key-value-pair">
+                                                                                                    <span class="th-token-type">string</span>
+                                                                                                                                                    <span class="th-token-variable">$fqnClass</span><span class="th-token-punctuation">,</span>
+                                                                                            </span>
+                                                                            </span>
+                                                                        )<span><span class="th-token-punctuation">:</span> <span class="th-token-return">array</span></span>
+                                </div>
+                            </div>
+                                                        <div class="dt-col-expand">
+                                <div class="dt-col-content">
+                                    <div class="th-col-documentation">
+                                        <div class="dt-doc-description"><p>Get class methods information.</p>
+
+</div><table class="dt-doc-tags-table dt-tags-table-param"><tr><td class="dt-doc-tag-name">@param</td><td class="dt-doc-tag-type">\ReflectionClass</td><td class="dt-doc-tag-variable">$refClass</td><td class="dt-doc-tag-description">
+</td></tr><tr><td class="dt-doc-tag-name">@param</td><td class="dt-doc-tag-type">string</td><td class="dt-doc-tag-variable">$fqnClass</td><td class="dt-doc-tag-description">
+</td></tr></table><table class="dt-doc-tags-table dt-tags-table-return"><tr><td class="dt-doc-tag-name">@return</td><td class="dt-doc-tag-type">array</td><td class="dt-doc-tag-description">
+</td></tr></table>                                    </div>
+                                </div>
+                            </div>
+                                                    </div>
+                                                <div class="dt-row row-odd-even th-row-member th-row-method">
+                            <div class="dt-col-member ">
+                                <div class="dt-col-content th-col-method">
+                                    <span class="th-token-modifier">protected</span>
+                                    <span class="th-token-name">getMethodParams</span> (
+                                                                        <span class="row-method-param">
+                                                                                                                            <span class="key-value-pair">
+                                                                                                    <span class="th-token-type">ReflectionMethod</span>
+                                                                                                                                                    <span class="th-token-variable">$refMethod</span><span class="th-token-punctuation">,</span>
+                                                                                            </span>
+                                                                            </span>
+                                                                        )
+                                </div>
+                            </div>
+                                                        <div class="dt-col-expand">
+                                <div class="dt-col-content">
+                                    <div class="th-col-documentation">
+                                        <div class="dt-doc-description"><p>Get method parameters information.</p>
+
+</div><table class="dt-doc-tags-table dt-tags-table-param"><tr><td class="dt-doc-tag-name">@param</td><td class="dt-doc-tag-type">\ReflectionMethod</td><td class="dt-doc-tag-variable">$refMethod</td><td class="dt-doc-tag-description">
+</td></tr></table><table class="dt-doc-tags-table dt-tags-table-return"><tr><td class="dt-doc-tag-name">@return</td><td class="dt-doc-tag-type">array</td><td class="dt-doc-tag-description">
+</td></tr></table>                                    </div>
+                                </div>
+                            </div>
+                                                    </div>
+                                                <div class="dt-row row-odd-even th-row-member th-row-method">
+                            <div class="dt-col-member ">
+                                <div class="dt-col-content th-col-method">
+                                    <span class="th-token-modifier">protected</span>
+                                    <span class="th-token-name">getValueType</span> (
+                                                                        <span class="row-method-param">
+                                                                                                                            <span class="key-value-pair">
+                                                                                                                                                    <span class="th-token-variable">$value</span><span class="th-token-punctuation">,</span>
+                                                                                            </span>
+                                                                            </span>
+                                                                        )
+                                </div>
+                            </div>
+                                                        <div class="dt-col-expand">
+                                <div class="dt-col-content">
+                                    <div class="th-col-documentation">
+                                        <div class="dt-doc-description"><p>Check the type of reflection $value to printable value.</p>
+<p>Word "n/a" to differentiate between the assigned default value "null"
+and the null returned by reflection when a default value is not assigned.</p>
+</div><table class="dt-doc-tags-table dt-tags-table-param"><tr><td class="dt-doc-tag-name">@param</td><td class="dt-doc-tag-type">mixed&#8203;|null</td><td class="dt-doc-tag-variable">$value</td><td class="dt-doc-tag-description">
+</td></tr></table><table class="dt-doc-tags-table dt-tags-table-return"><tr><td class="dt-doc-tag-name">@return</td><td class="dt-doc-tag-type">string&#8203;|int</td><td class="dt-doc-tag-description">
+</td></tr></table>                                    </div>
+                                </div>
+                            </div>
+                                                    </div>
+                                                <div class="dt-row row-odd-even th-row-member th-row-method">
+                            <div class="dt-col-member ">
+                                <div class="dt-col-content th-col-method">
+                                    <span class="th-token-modifier">protected</span>
+                                    <span class="th-token-name">parseDocBlock</span> (
+                                                                        <span class="row-method-param">
+                                                                                                                            <span class="key-value-pair">
+                                                                                                    <span class="th-token-type">Reflector</span>
+                                                                                                                                                    <span class="th-token-variable">$ref</span><span class="th-token-punctuation">,</span>
+                                                                                            </span>
+                                                                            </span>
+                                                                        )<span><span class="th-token-punctuation">:</span> <span class="th-token-return">array</span></span>
+                                </div>
+                            </div>
+                                                        <div class="dt-col-expand">
+                                <div class="dt-col-content">
+                                    <div class="th-col-documentation">
+                                        <div class="dt-doc-description"><p>Get DocBLock informations.</p>
+
+</div><table class="dt-doc-tags-table dt-tags-table-param"><tr><td class="dt-doc-tag-name">@param</td><td class="dt-doc-tag-type">\Reflector</td><td class="dt-doc-tag-variable">$ref</td><td class="dt-doc-tag-description"><p>Has the <code>getDocComment()</code> method</p>
+</td></tr></table><table class="dt-doc-tags-table dt-tags-table-return"><tr><td class="dt-doc-tag-name">@return</td><td class="dt-doc-tag-type">array</td><td class="dt-doc-tag-description">
+</td></tr></table>                                    </div>
+                                </div>
+                            </div>
+                                                    </div>
+                                                <div class="dt-row row-odd-even th-row-member th-row-method">
+                            <div class="dt-col-member ">
+                                <div class="dt-col-content th-col-method">
+                                    <span class="th-token-modifier">public</span>
+                                    <span class="th-token-name">render</span> (
+                                                                        <span class="row-method-param">
+                                                                                                                            <span class="key-value-pair">
+                                                                                                    <span class="th-token-type">array</span>
+                                                                                                                                                    <span class="th-token-variable">$params</span> <span class="th-token-value">= []</span><span class="th-token-punctuation">,</span>
+                                                                                            </span>
+                                                                            </span>
+                                                                        )<span><span class="th-token-punctuation">:</span> <span class="th-token-return">string</span></span>
+                                </div>
+                            </div>
+                                                        <div class="dt-col-expand">
+                                <div class="dt-col-content">
+                                    <div class="th-col-documentation">
+                                        <div class="dt-doc-description"><p>Render in HTML page.</p>
+<p>Available setting:</p>
+
+<ul>
+<li><code>title</code>      Page heading (h1) and meta title</li>
+<li><code>tagline</code>    Page heading tagline</li>
+<li><code>footer</code>     Footer information. Default: <code>{title} - {tagline}</code></li>
+<li><code>theme</code>      Report theme. Options: <code>default</code>, <code>darkmoon</code></li>
+<li><code>css</code>        Customize the report style</li>
+<li><code>template</code>   Custom template path</li>
+</ul>
+</div><table class="dt-doc-tags-table dt-tags-table-param"><tr><td class="dt-doc-tag-name">@param</td><td class="dt-doc-tag-type">array</td><td class="dt-doc-tag-variable">$setting</td><td class="dt-doc-tag-description">
+</td></tr></table><table class="dt-doc-tags-table dt-tags-table-return"><tr><td class="dt-doc-tag-name">@return</td><td class="dt-doc-tag-type">string</td><td class="dt-doc-tag-description">
+</td></tr></table>                                    </div>
+                                </div>
+                            </div>
+                                                    </div>
+                                                <div class="dt-row row-odd-even th-row-member th-row-method">
+                            <div class="dt-col-member ">
+                                <div class="dt-col-content th-col-method">
+                                    <span class="th-token-modifier">protected</span>
+                                    <span class="th-token-name">formatDocBlock</span> (
+                                                                        <span class="row-method-param">
+                                                                                                                            <span class="key-value-pair">
+                                                                                                    <span class="th-token-type">array</span>
+                                                                                                                                                    <span class="th-token-variable">$docBlock</span><span class="th-token-punctuation">,</span>
+                                                                                            </span>
+                                                                            </span>
+                                                                        )<span><span class="th-token-punctuation">:</span> <span class="th-token-return">string</span></span>
+                                </div>
+                            </div>
+                                                        <div class="dt-col-expand">
+                                <div class="dt-col-content">
+                                    <div class="th-col-documentation">
+                                        <div class="dt-doc-description"><p>Standarize the documentation HTML format.</p>
+<p>The class, constant, property and method share the same HTML output.</p>
+</div><table class="dt-doc-tags-table dt-tags-table-param"><tr><td class="dt-doc-tag-name">@param</td><td class="dt-doc-tag-type">array</td><td class="dt-doc-tag-variable">$docBlock</td><td class="dt-doc-tag-description">
+</td></tr></table><table class="dt-doc-tags-table dt-tags-table-return"><tr><td class="dt-doc-tag-name">@return</td><td class="dt-doc-tag-type">string</td><td class="dt-doc-tag-description">
+</td></tr></table>                                    </div>
+                                </div>
+                            </div>
+                                                    </div>
+                                                <div class="dt-row row-odd-even th-row-member th-row-method">
+                            <div class="dt-col-member ">
+                                <div class="dt-col-content th-col-method">
+                                    <span class="th-token-modifier">protected</span>
+                                    <span class="th-token-name">markdown</span> (
+                                                                        <span class="row-method-param">
+                                                                                                                            <span class="key-value-pair">
+                                                                                                    <span class="th-token-type">string</span>
+                                                                                                                                                    <span class="th-token-variable">$content</span><span class="th-token-punctuation">,</span>
+                                                                                            </span>
+                                                                            </span>
+                                                                        )<span><span class="th-token-punctuation">:</span> <span class="th-token-return">string</span></span>
+                                </div>
+                            </div>
+                                                        <div class="dt-col-expand">
+                                <div class="dt-col-content">
+                                    <div class="th-col-documentation">
+                                        <div class="dt-doc-description"><p>Pretify documentation with Markdown.</p>
+
+</div><table class="dt-doc-tags-table dt-tags-table-link"><tr><td class="dt-doc-tag-name">@link</td><td class="dt-doc-tag-render"><p><a href="https://daringfireball.net/projects/markdown/basics">Markdown basic</a></p>
+</td></tr><tr><td class="dt-doc-tag-name">@link</td><td class="dt-doc-tag-render"><p><a href="https://michelf.ca/projects/php-markdown/extra/">Markdown extra</a></p>
+</td></tr></table><table class="dt-doc-tags-table dt-tags-table-param"><tr><td class="dt-doc-tag-name">@param</td><td class="dt-doc-tag-type">string</td><td class="dt-doc-tag-variable">$content</td><td class="dt-doc-tag-description">
+</td></tr></table><table class="dt-doc-tags-table dt-tags-table-return"><tr><td class="dt-doc-tag-name">@return</td><td class="dt-doc-tag-type">string</td><td class="dt-doc-tag-description">
+</td></tr></table>                                    </div>
+                                </div>
+                            </div>
+                                                    </div>
+                                                <div class="dt-row row-odd-even th-row-member th-row-method">
+                            <div class="dt-col-member ">
+                                <div class="dt-col-content th-col-method">
+                                    <span class="th-token-modifier">protected</span>
+                                    <span class="th-token-name">wordBreak</span> (
+                                                                        <span class="row-method-param">
+                                                                                                                            <span class="key-value-pair">
+                                                                                                    <span class="th-token-type">string</span>
+                                                                                                                                                    <span class="th-token-variable">$content</span><span class="th-token-punctuation">,</span>
+                                                                                            </span>
+                                                                            </span>
+                                                                        )<span><span class="th-token-punctuation">:</span> <span class="th-token-return">string</span></span>
+                                </div>
+                            </div>
+                                                        <div class="dt-col-expand">
+                                <div class="dt-col-content">
+                                    <div class="th-col-documentation">
+                                        <div class="dt-doc-description"><p>Break part namespace and types with <code>&amp;#8203;</code> zero-width space.</p>
+
+</div><table class="dt-doc-tags-table dt-tags-table-param"><tr><td class="dt-doc-tag-name">@param</td><td class="dt-doc-tag-type">string</td><td class="dt-doc-tag-variable">$content</td><td class="dt-doc-tag-description">
+</td></tr></table><table class="dt-doc-tags-table dt-tags-table-return"><tr><td class="dt-doc-tag-name">@return</td><td class="dt-doc-tag-type">string</td><td class="dt-doc-tag-description">
+</td></tr></table>                                    </div>
+                                </div>
+                            </div>
+                                                    </div>
+                        
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+            </div>
+
+    <div class="dt-footer dt-gray">
+        DocTracer - PHP ReflectionClass and API Documentation Generator<br>
+        Generated by
+        <a href="https://github.com/qaharmdz/DocTracer" title="DocTracer - PHP ReflectionClass and API documentation.">DocTracer v0.8.0</a>
+        at <span class="dt-created">2021-07-25T12:02:05+00:00</span>
+    </div>
+    <a class="dt-toTop" href="#docTracer">^Top</a>
+</div>
+
+</body>
+</html>
