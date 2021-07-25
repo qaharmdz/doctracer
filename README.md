@@ -15,36 +15,45 @@ composer require qaharmdz/doctracer --dev
 Usage
 -----
 
-Create the DocTracer instance with a base directory.
+Create the DocTracer instance.
 
 ```php
-$tracer  = new \Mdz\DocTracer($baseDir = './');
+$tracer = new \Mdz\DocTracer($baseDirectory = './');
 ```
 
 Inspect all PHP codes inside target directory (relative to the `$baseDir`).
 
 ```php
+$tracer->inspect('./../src');
 $tracer->inspect('./Library/');
-$tracer->inspect('./../vendor/');
 ```
 
-Get the reports data.
+## Inspection Results
+
+Get the inspection results data.
 
 ```php
-$reports = $tracer->getReports();
+$reports = $tracer->getResults();
 var_dump($reports);
 ```
+
+## HTML Report
 
 Output the HTML report.
 
 ```php
 echo $output = $tracer->render([
-    '{title}'   => 'DocTracer',
-    '{tagline}' => 'PHP ReflectionClass and API documentation',
+    'title'   => 'DocTracer Test',
+    'tagline' => 'PHP ReflectionClass and API documentation',
+    'theme'   => 'darkmoon',
 ]);
+```
 
-// and save it to file
+**Save the output to file**
+
+```php
 file_put_contents('example-api.html', $output);
 ```
+
 
 > For more examples review the scripts in the [`/examples`](/examples) folder.
