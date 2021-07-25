@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en" class="docTracer dt-th-<?php echo $setting['theme']; ?>">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title><?php echo $setting['title']; ?> Documentation</title>
+
+<style>
+<?php include('style.css'); ?>
+<?php echo $setting['css']; ?>
+</style>
+</head>
+
+<body>
+<div id="docTracer" class="dt-container">
+    <h1 class="dt-head"><?php echo $setting['title']; ?> <span class="dt-tagline dt-mobile-display-block"><?php echo $setting['tagline']; ?></span></h1>
+
+    <div class="dt-datatable">
+        <div class="dt-mobile-hide hide">
+            <div class="dt-row th-row-header" style="background:#555;color:#fbfbfb">
+                <div class="dt-col-namespace">
+                    <div class="dt-col-content">Namespace</div>
+                </div>
+                <div class="dt-col-expand">
+
+                    <div class="dt-row">
+                        <div class="dt-col-class">
+                            <div class="dt-col-content">Class</div>
+                        </div>
+                        <div class="dt-col-expand dt-tablet-hide">
+
+                            <div class="dt-row">
+                                <div class="dt-col-member">
+                                    <div class="dt-col-content">Constant | Property | Method</div>
+                                </div>
+                                <div class="dt-col-expand">
+                                    <div class="dt-col-content">Documentation</div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <?php foreach ($this->getResults() as $namespace => $classes) { ?>
+        <div class="dt-row th-row-namespace">
+            <div class="dt-col-namespace dt-mobile-hide">
+                <div class="dt-col-content th-col-namespace dt-sticky">
+                    <span class="th-token-keyword">namespace</span>
+                    <span class="th-token-name"><?php echo $namespace; ?></span>
+                </div>
+            </div>
+            <div class="dt-col-expand">
+
+                <?php foreach ($classes as $class) { ?>
+                <div class="dt-row th-row-class row-odd-even">
+                    <div class="dt-col-class dt-sticky">
+                        <div class="dt-col-content">
+                            <div class="dt-col-namespace dt-mobile-show">
+                                <span class="th-token-keyword">namespace</span>
+                                <span class="th-token-name"><?php echo $namespace; ?></span>
+                            </div>
+                            <div class="th-col-class dt-sticky-desktop">
+                                <span class="th-token-modifier">
+                                    <?php echo implode(' ', $class['modifier']); ?>
+                                    <?php echo $class['is_interface'] ? 'interface' : ($class['is_trait'] ? 'trait' : 'class'); ?>
+                                </span>
+                                <span class="th-token-name"><?php echo $class['name']; ?></span>
+                                <?php if ($class['extend']) { ?>
+                                <span class="class-extend">
+                                    <span class="th-token-keyword">extends</span>
+                                    <span class="th-token-type th-token-extend"><?php echo $class['extend']; ?></span>
+                                </span>
+                                <?php } ?>
+                                <?php if ($class['interfaces']) { ?>
+                                <span class="class-interface">
+                                    <span class="th-token-keyword">implements</span>
+                                    <span class="th-token-type th-token-interface"><?php echo implode(', ', $class['interfaces']); ?></span>
+                                </span>
+                                <?php } ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dt-col-expand">
+
+                        <?php if ($class['docblock']) { ?>
+                        <div class="dt-row row-odd-even th-row-docs">
+                            <div class="dt-col-expand">
+                                <div class="dt-col-content">
+                                    <div class="th-col-documentation">
+                                        <?php echo $this->formatDocBlock($class['docblock']); ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <?php } ?>
+
+                        <?php foreach ($class['constants'] as $constant) { ?>
+                        <div class="dt-row row-odd-even th-row-member th-row-constant">
+                            <div class="dt-col-member <?php echo !$constant['docblock'] ? 'dt-col-expand' : ''; ?>">
+                                <div class="dt-col-content th-col-constant">
+                                    <span class="th-token-modifier"><?php echo implode(' ', $constant['modifier']); ?></span>
+                                    <span class="th-token-keyword">const</span>
+                                    <span class="key-value-pair">
+                                        <?php if ($constant['value'] === '') { ?>
+                                            <span class="th-token-name"><?php echo $constant['name']; ?></span><span class="th-token-punctuation">;</span>
+                                        <?php } else { ?>
+                                            <span class="th-token-name"><?php echo $constant['name']; ?></span> = <span class="th-token-value"><?php echo $constant['value']; ?></span><span class="th-token-punctuation">;</span>
+                                        <?php } ?>
+                                    </span>
+                                </div>
+                            </div>
+                            <?php if ($constant['docblock']) { ?>
+                            <div class="dt-col-expand">
+                                <div class="dt-col-content">
+                                    <div class="th-col-documentation">
+                                        <?php echo $this->formatDocBlock($constant['docblock']); ?>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php } ?>
+                        </div>
+                        <?php } ?>
+
+                        <?php foreach ($class['properties'] as $property) { ?>
+                        <div class="dt-row row-odd-even th-row-member th-row-property">
+                            <div class="dt-col-member <?php echo !$property['docblock'] ? 'dt-col-expand' : ''; ?>">
+                                <div class="dt-col-content th-col-property">
+                                    <span class="th-token-modifier"><?php echo implode(' ', $property['modifier']); ?></span>
+                                    <span class="th-token-type"><?php echo $property['type']; ?></span>
+                                    <span class="key-value-pair">
+                                        <?php if ($property['value'] === '') { ?>
+                                            <span class="th-token-name">$<?php echo $property['name']; ?></span><span class="th-token-punctuation">;</span>
+                                        <?php } else { ?>
+                                            <span class="th-token-name">$<?php echo $property['name']; ?></span> = <span class="th-token-value"><?php echo $property['value']; ?></span><span class="th-token-punctuation">;</span>
+                                        <?php } ?>
+                                    </span>
+                                </div>
+                            </div>
+                            <?php if ($property['docblock']) { ?>
+                            <div class="dt-col-expand">
+                                <div class="dt-col-content">
+                                    <div class="th-col-documentation">
+                                        <?php echo $this->formatDocBlock($property['docblock']); ?>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php } ?>
+                        </div>
+                        <?php } ?>
+
+                        <?php foreach ($class['methods'] as $method) { ?>
+                        <div class="dt-row row-odd-even th-row-member th-row-method">
+                            <div class="dt-col-member <?php echo !$method['docblock'] ? 'dt-col-expand' : ''; ?>">
+                                <div class="dt-col-content th-col-method">
+                                    <span class="th-token-modifier"><?php echo implode(' ', $method['modifier']); ?></span>
+                                    <span class="th-token-name"><?php echo $method['name']; ?></span> (
+                                    <?php if ($method['params']) { ?>
+                                    <span class="row-method-param">
+                                        <?php $params = []; ?>
+                                        <?php foreach ($method['params'] as $param) { ?>
+                                            <span class="key-value-pair">
+                                                <?php if ($param['type']) { ?>
+                                                    <span class="th-token-type"><?php echo $param['type']; ?></span>
+                                                <?php } ?>
+                                                <?php if ($param['default'] === '') { ?>
+                                                    <span class="th-token-variable">$<?php echo $param['name']; ?></span><span class="th-token-punctuation">,</span>
+                                                <?php } else { ?>
+                                                    <span class="th-token-variable">$<?php echo $param['name']; ?></span> <span class="th-token-value">= <?php echo $param['default']; ?></span><span class="th-token-punctuation">,</span>
+                                                <?php } ?>
+                                            </span>
+                                        <?php } ?>
+                                    </span>
+                                    <?php } ?>
+                                    )<?php if ($method['return']) { ?><span class="th-token-punctuation">:</span> <span class="th-token-return"><?php echo $method['return']; ?></span><?php } ?>
+
+                                </div>
+                            </div>
+                            <?php if ($method['docblock']) { ?>
+                            <div class="dt-col-expand">
+                                <div class="dt-col-content">
+                                    <div class="th-col-documentation">
+                                        <?php echo $this->formatDocBlock($method['docblock']); ?>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php } ?>
+                        </div>
+                        <?php } ?>
+
+                    </div>
+                </div>
+                <?php } ?>
+
+            </div>
+        </div>
+        <?php } ?>
+    </div>
+
+    <div class="dt-footer dt-gray">
+        <?php echo $setting['footer'] ?: $setting['title'] . ' - ' . $setting['tagline']; ?><br>
+        Generated by
+        <a href="https://github.com/qaharmdz/DocTracer" title="DocTracer - PHP ReflectionClass and API documentation.">DocTracer v<?php echo $version; ?></a>
+        at <span class="dt-created"><?php echo $created; ?></span>
+    </div>
+    <a class="dt-toTop" href="#docTracer">^Top</a>
+</div>
+
+</body>
+</html>
