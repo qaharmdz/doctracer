@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Example;
 
 /**
- * Expecto Patronum
+ * Comment summary
  *
  * @author You Know Who <no-reply@example.com>
  */

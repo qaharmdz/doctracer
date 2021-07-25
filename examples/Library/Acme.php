@@ -41,6 +41,7 @@ class Acme extends ParentClass implements \Countable
     protected const ENCODING_BIT = '8bit';
 
     public int $priority = 0;
+    protected static array $data = [101, ['number' => '101']];
     private $neighbour;
 
     public function __construct(Neighbour $nextDoor)
@@ -76,6 +77,7 @@ class Acme extends ParentClass implements \Countable
      *
      * @see https://en.wikipedia.org/wiki/Docblock
      *
+     * @param string|null $unset
      * @param Example\NextClass $parent
      * @param int       $int0       It's a zero
      * @param int       $int1
@@ -86,11 +88,14 @@ class Acme extends ParentClass implements \Countable
      * @param string    $number
      * @param array     $array
      * @param null      $null
-     * @param string|null $unset
+     * @param array|int|string      $mixed
+     *
+     * @throws  \InvalidArgumentException
      *
      * @return string|null
      */
     public function methodParams(
+        $unset,
         NextClass $next,
         int $int0 = 0,
         int $int1 = 1,
@@ -101,9 +106,14 @@ class Acme extends ParentClass implements \Countable
         string $number = '123',
         array $array = ['foo', 'bar'],
         $null = null,
-        $unset
+        $mixed = ''
     ): ?string
     {
         return 'awesome';
+    }
+
+    public static function checkModifier(): int
+    {
+        return 101;
     }
 }
