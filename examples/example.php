@@ -15,13 +15,13 @@ $tracer->inspect('./Library/');
 
 //=== Print output
 echo $output = $tracer->render([
-    'title'   => 'DocTracer Test',
-    'tagline' => 'PHP ReflectionClass and API documentation',
+    'title'   => 'DocTracer',
+    'tagline' => 'PHP ReflectionClass and API Documentation Generator',
     'theme'   => 'darkmoon',
 ]);
 
 // Save to file
 // file_put_contents('example-api.html', $output);
 
-//=== Dump reports
+//=== Dump all results
 // var_dump($tracer->getResults());
