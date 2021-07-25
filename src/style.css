@@ -299,22 +299,18 @@ ul, ol {
     line-height: 1.3em;
     padding: 1px 2px;
 }
-.dt-doc-description {
-    margin-bottom: 5px;
-}
 .dt-doc-tags-table {
     width: 100%;
 }
 
-.dt-doc-description p,
 .dt-doc-tags-table p,
 .dt-doc-tags-table ul,
 .dt-doc-tags-table ol,
 .dt-doc-tags-table pre {
     margin: 0;
 }
-.dt-doc-description * + p {
-    margin-top: 5px;
+.dt-doc-description p {
+    margin-bottom: 5px;
 }
 * + .dt-doc-tags-table {
     margin-top: 1px;
@@ -450,4 +446,9 @@ ul, ol {
 }
 .dt-th-darkmoon pre {
     background: rgba(255,255,555, .04);
+}
+.dt-th-darkmoon .dt-col-namespace .th-token-name,
+.dt-th-darkmoon .dt-col-class .th-token-name,
+.dt-th-darkmoon .class-extend .th-token-type {
+    color: var(--th-color-tag);
 }
