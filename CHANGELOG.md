@@ -15,6 +15,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 ---
 
 ## [Unreleased]
+
+
+## [v1.0.1] - 2021-07-26
 ### Fixed
 - Invalid tags break the parseDocBlock()
 
@@ -22,5 +25,6 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 ### Added
 - Initial Release
 
-[Unreleased]: https://github.com/qaharmdz/doctracer/compare/v1.0.0...main
+[Unreleased]: https://github.com/qaharmdz/doctracer/compare/v1.0.1...main
+[v1.0.1]: https://github.com/qaharmdz/doctracer/compare/v1.0.0...v1.0.1
 [v1.0.0]: https://github.com/qaharmdz/doctracer/releases/tag/v1.0.0
