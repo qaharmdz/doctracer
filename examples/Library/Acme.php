@@ -29,6 +29,8 @@ namespace Example;
  * @author    Another Author <delta@example.com>
  * @copyright 2021 (c) Acme Corporation
  * @license   [https://opensource.org/licenses/MIT](https://opensource.org/licenses/MIT)
+ *
+ * @return    [type]    Show invalid tags as is
  */
 class Acme extends ParentClass implements \Countable
 {

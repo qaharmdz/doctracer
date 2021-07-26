@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Mdz;
 
 use phpDocumentor\Reflection\DocBlockFactory;
+use phpDocumentor\Reflection\DocBlock\Tags\InvalidTag;
 use Michelf\MarkdownExtra;
 
 /**
@@ -375,26 +376,28 @@ class DocTracer
 
         $i = 0;
         foreach ($docBlock->getTags() as $docTags) {
-            if ($docTags->getName() === 'param') {
-                $tags[$docTags->getName()][$i] = [
-                    'name'        => '@' . $docTags->getName(),
-                    'type'        => (string)$docTags->getType(),
-                    'variable'    => '$' . $docTags->getVariableName(),
-                    'description' => $docTags->getDescription()->render(),
-                ];
-            } elseif (in_array($docTags->getName(), ['var', 'return', 'throws'])) {
-                $tags[$docTags->getName()][$i] = [
-                    'name'        => '@' . $docTags->getName(),
-                    'type'        => (string)$docTags->getType(),
-                    'description' => $docTags->getDescription()->render(),
-                ];
-            } else {
-                $tags[$docTags->getName()][$i] = [
-                    'name'   => '@' . $docTags->getName(),
-                ];
+            if ($docTags && !$docTags instanceof InvalidTag) {
+                if ($docTags->getName() === 'param') {
+                    $tags[$docTags->getName()][$i] = [
+                        'name'        => '@' . $docTags->getName(),
+                        'type'        => (string)$docTags->getType(),
+                        'variable'    => '$' . $docTags->getVariableName(),
+                        'description' => $docTags->getDescription()->render(),
+                    ];
+                } elseif (in_array($docTags->getName(), ['var', 'return', 'throws'])) {
+                    $tags[$docTags->getName()][$i] = [
+                        'name'        => '@' . $docTags->getName(),
+                        'type'        => (string)$docTags->getType(),
+                        'description' => $docTags->getDescription()->render(),
+                    ];
+                } else {
+                    $tags[$docTags->getName()][$i] = [
+                        'name'   => '@' . $docTags->getName(),
+                    ];
+                }
             }
 
-            $tags[$docTags->getName()][$i]['render'] = trim(str_replace('@' . $docTags->getName(), '', $docTags->render()));
+            $tags[$docTags->getName()][$i]['render'] = trim($docTags->render());
 
             $i++;
         }
@@ -469,23 +472,42 @@ class DocTracer
 
                 foreach ($tags as $tag) {
                     if ($name === 'param') {
-                        $docs .= '<tr>';
-                        $docs .= '<td class="dt-doc-tag-name">' . $tag['name'] . '</td>';
-                        $docs .= '<td class="dt-doc-tag-type">' . $this->wordbreak($tag['type']) . '</td>';
-                        $docs .= '<td class="dt-doc-tag-variable">' . $tag['variable'] . '</td>';
-                        $docs .= '<td class="dt-doc-tag-description">' . $this->markdown($tag['description']) . '</td>';
-                        $docs .= '</tr>';
+                        if (isset($tag['name'])) {
+                            $docs .= '<tr>';
+                            $docs .= '<td class="dt-doc-tag-name">' . $tag['name'] . '</td>';
+                            $docs .= '<td class="dt-doc-tag-type">' . $this->wordbreak($tag['type']) . '</td>';
+                            $docs .= '<td class="dt-doc-tag-variable">' . $tag['variable'] . '</td>';
+                            $docs .= '<td class="dt-doc-tag-description">' . $this->markdown($tag['description']) . '</td>';
+                            $docs .= '</tr>';
+                        } else {
+                            $docs .= '<tr>';
+                            $docs .= '<td class="dt-doc-tag-render" colspan="4">' . $this->markdown($tag['render']) . '</td>';
+                            $docs .= '</tr>';
+                        }
                     } elseif (in_array($name, ['var', 'return', 'throws'])) {
-                        $docs .= '<tr>';
-                        $docs .= '<td class="dt-doc-tag-name">' . $tag['name'] . '</td>';
-                        $docs .= '<td class="dt-doc-tag-type">' . $this->wordbreak($tag['type']) . '</td>';
-                        $docs .= '<td class="dt-doc-tag-description">' . $this->markdown($tag['description']) . '</td>';
-                        $docs .= '</tr>';
+                        if (isset($tag['name'])) {
+                            $docs .= '<tr>';
+                            $docs .= '<td class="dt-doc-tag-name">' . $tag['name'] . '</td>';
+                            $docs .= '<td class="dt-doc-tag-type">' . $this->wordbreak($tag['type']) . '</td>';
+                            $docs .= '<td class="dt-doc-tag-description">' . $this->markdown($tag['description']) . '</td>';
+                            $docs .= '</tr>';
+                        } else {
+                            $docs .= '<tr>';
+                            $docs .= '<td class="dt-doc-tag-render" colspan="3">' . $this->markdown($tag['render']) . '</td>';
+                            $docs .= '</tr>';
+                        }
                     } else {
-                        $docs .= '<tr>';
-                        $docs .= '<td class="dt-doc-tag-name">' . $tag['name'] . '</td>';
-                        $docs .= '<td class="dt-doc-tag-render">' . $this->markdown($tag['render']) . '</td>';
-                        $docs .= '</tr>';
+                        if (isset($tag['name'])) {
+                            $render = str_replace('@' . $tag['name'], '', $tag['render']);
+                            $docs .= '<tr>';
+                            $docs .= '<td class="dt-doc-tag-name">' . $tag['name'] . '</td>';
+                            $docs .= '<td class="dt-doc-tag-render">' . $this->markdown($render) . '</td>';
+                            $docs .= '</tr>';
+                        } else {
+                            $docs .= '<tr>';
+                            $docs .= '<td class="dt-doc-tag-render" colspan="2">' . $this->markdown($tag['render']) . '</td>';
+                            $docs .= '</tr>';
+                        }
                     }
                 }
                 $docs .= '</table>';
