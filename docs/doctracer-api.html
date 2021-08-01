@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DocTracer API Documentation</title>
-<meta name="description" content="DocTracer helps you to create meaningful API documentation reports. Reflecting PHP class information and show markdown formatted documentation on one page.">
+<title>DocTracer Documentation</title>
+
 <style>
 :root {
     --font-family-read: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -536,10 +536,10 @@ Reflecting PHP class information and show markdown formatted documentation on on
 $tracer-&gt;inspect($targetDir);
 echo $tracer-&gt;render();
 </code></pre>
-</div><table class="dt-doc-tags-table dt-tags-table-link"><tr><td class="dt-doc-tag-name">@link</td><td class="dt-doc-tag-render"><p><a href="https://github.com/qaharmdz/doctracer">DocTracer</a></p>
-</td></tr></table><table class="dt-doc-tags-table dt-tags-table-author"><tr><td class="dt-doc-tag-name">@author</td><td class="dt-doc-tag-render"><p>Mudzakkir <a href="&#109;&#97;&#x69;&#108;&#x74;&#111;&#x3a;&#109;&#x65;&#64;m&#x64;&#122;&#x73;&#116;&#x61;&#99;&#x6b;&#46;&#x63;&#111;&#109;">&#109;&#x65;&#64;m&#x64;&#122;&#x73;&#116;&#x61;&#99;&#x6b;&#46;&#x63;&#111;&#109;</a></p>
-</td></tr></table><table class="dt-doc-tags-table dt-tags-table-copyright"><tr><td class="dt-doc-tag-name">@copyright</td><td class="dt-doc-tag-render"><p>Copyright (c) 2021 Mudzakkir</p>
-</td></tr></table><table class="dt-doc-tags-table dt-tags-table-license"><tr><td class="dt-doc-tag-name">@license</td><td class="dt-doc-tag-render"><p><a href="https://opensource.org/licenses/MIT">https://opensource.org/licenses/MIT</a></p>
+</div><table class="dt-doc-tags-table dt-tags-table-link"><tr><td class="dt-doc-tag-name">@link</td><td class="dt-doc-tag-render"><p>@link <a href="https://github.com/qaharmdz/doctracer">DocTracer</a></p>
+</td></tr></table><table class="dt-doc-tags-table dt-tags-table-author"><tr><td class="dt-doc-tag-name">@author</td><td class="dt-doc-tag-render"><p>@author Mudzakkir <a href="&#109;&#97;&#x69;&#108;&#x74;&#111;&#x3a;&#109;&#x65;&#64;m&#x64;&#122;&#x73;&#116;&#x61;&#99;&#x6b;&#46;&#x63;&#111;&#109;">&#109;&#x65;&#64;m&#x64;&#122;&#x73;&#116;&#x61;&#99;&#x6b;&#46;&#x63;&#111;&#109;</a></p>
+</td></tr></table><table class="dt-doc-tags-table dt-tags-table-copyright"><tr><td class="dt-doc-tag-name">@copyright</td><td class="dt-doc-tag-render"><p>@copyright Copyright (c) 2021 Mudzakkir</p>
+</td></tr></table><table class="dt-doc-tags-table dt-tags-table-license"><tr><td class="dt-doc-tag-name">@license</td><td class="dt-doc-tag-render"><p>@license <a href="https://opensource.org/licenses/MIT">https://opensource.org/licenses/MIT</a></p>
 </td></tr></table>                                    </div>
                                 </div>
                             </div>
@@ -551,7 +551,7 @@ echo $tracer-&gt;render();
                                     <span class="th-token-modifier">public</span>
                                     <span class="th-token-keyword">const</span>
                                     <span class="key-value-pair">
-                                                                                    <span class="th-token-name">VERSION</span> = <span class="th-token-value">'0.8.0'</span><span class="th-token-punctuation">;</span>
+                                                                                    <span class="th-token-name">VERSION</span> = <span class="th-token-value">'1.0.2'</span><span class="th-token-punctuation">;</span>
                                                                             </span>
                                 </div>
                             </div>
@@ -831,7 +831,7 @@ echo $tracer-&gt;render();
                                                                                                                                                     <span class="th-token-variable">$refMethod</span><span class="th-token-punctuation">,</span>
                                                                                             </span>
                                                                             </span>
-                                                                        )
+                                                                        )<span><span class="th-token-punctuation">:</span> <span class="th-token-return">array</span></span>
                                 </div>
                             </div>
                                                         <div class="dt-col-expand">
@@ -841,6 +841,31 @@ echo $tracer-&gt;render();
 
 </div><table class="dt-doc-tags-table dt-tags-table-param"><tr><td class="dt-doc-tag-name">@param</td><td class="dt-doc-tag-type">\ReflectionMethod</td><td class="dt-doc-tag-variable">$refMethod</td><td class="dt-doc-tag-description">
 </td></tr></table><table class="dt-doc-tags-table dt-tags-table-return"><tr><td class="dt-doc-tag-name">@return</td><td class="dt-doc-tag-type">array</td><td class="dt-doc-tag-description">
+</td></tr></table>                                    </div>
+                                </div>
+                            </div>
+                                                    </div>
+                                                <div class="dt-row row-odd-even th-row-member th-row-method">
+                            <div class="dt-col-member ">
+                                <div class="dt-col-content th-col-method">
+                                    <span class="th-token-modifier">protected</span>
+                                    <span class="th-token-name">getTypeHint</span> (
+                                                                        <span class="row-method-param">
+                                                                                                                            <span class="key-value-pair">
+                                                                                                    <span class="th-token-type">ReflectionType</span>
+                                                                                                                                                    <span class="th-token-variable">$refType</span><span class="th-token-punctuation">,</span>
+                                                                                            </span>
+                                                                            </span>
+                                                                        )<span><span class="th-token-punctuation">:</span> <span class="th-token-return">string</span></span>
+                                </div>
+                            </div>
+                                                        <div class="dt-col-expand">
+                                <div class="dt-col-content">
+                                    <div class="th-col-documentation">
+                                        <div class="dt-doc-description"><p>Get the type hint</p>
+
+</div><table class="dt-doc-tags-table dt-tags-table-param"><tr><td class="dt-doc-tag-name">@param</td><td class="dt-doc-tag-type">\ReflectionType</td><td class="dt-doc-tag-variable">$refType</td><td class="dt-doc-tag-description">
+</td></tr></table><table class="dt-doc-tags-table dt-tags-table-return"><tr><td class="dt-doc-tag-name">@return</td><td class="dt-doc-tag-type">string</td><td class="dt-doc-tag-description">
 </td></tr></table>                                    </div>
                                 </div>
                             </div>
@@ -973,8 +998,8 @@ and the null returned by reflection when a default value is not assigned.</p>
                                     <div class="th-col-documentation">
                                         <div class="dt-doc-description"><p>Pretify documentation with Markdown.</p>
 
-</div><table class="dt-doc-tags-table dt-tags-table-link"><tr><td class="dt-doc-tag-name">@link</td><td class="dt-doc-tag-render"><p><a href="https://daringfireball.net/projects/markdown/basics">Markdown basic</a></p>
-</td></tr><tr><td class="dt-doc-tag-name">@link</td><td class="dt-doc-tag-render"><p><a href="https://michelf.ca/projects/php-markdown/extra/">Markdown extra</a></p>
+</div><table class="dt-doc-tags-table dt-tags-table-link"><tr><td class="dt-doc-tag-name">@link</td><td class="dt-doc-tag-render"><p>@link <a href="https://daringfireball.net/projects/markdown/basics">Markdown basic</a></p>
+</td></tr><tr><td class="dt-doc-tag-name">@link</td><td class="dt-doc-tag-render"><p>@link <a href="https://michelf.ca/projects/php-markdown/extra/">Markdown extra</a></p>
 </td></tr></table><table class="dt-doc-tags-table dt-tags-table-param"><tr><td class="dt-doc-tag-name">@param</td><td class="dt-doc-tag-type">string</td><td class="dt-doc-tag-variable">$content</td><td class="dt-doc-tag-description">
 </td></tr></table><table class="dt-doc-tags-table dt-tags-table-return"><tr><td class="dt-doc-tag-name">@return</td><td class="dt-doc-tag-type">string</td><td class="dt-doc-tag-description">
 </td></tr></table>                                    </div>
@@ -1017,8 +1042,8 @@ and the null returned by reflection when a default value is not assigned.</p>
     <div class="dt-footer dt-gray">
         DocTracer - PHP ReflectionClass and API Documentation Generator<br>
         Generated by
-        <a href="https://github.com/qaharmdz/DocTracer" title="DocTracer - PHP ReflectionClass and API documentation.">DocTracer v0.8.0</a>
-        at <span class="dt-created">2021-07-25T12:02:05+00:00</span>
+        <a href="https://github.com/qaharmdz/DocTracer" title="DocTracer - PHP ReflectionClass and API documentation.">DocTracer v1.0.2</a>
+        at <span class="dt-created">2021-08-01T10:01:27+00:00</span>
     </div>
     <a class="dt-toTop" href="#docTracer">^Top</a>
 </div>
