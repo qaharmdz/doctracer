@@ -220,7 +220,7 @@ class DocTracer
     protected function getProperties(\ReflectionClass $refClass, string $fqnClass): array
     {
         $reports = [];
-        
+
         foreach ($refClass->getProperties() as $refProperty) {
             if ($refProperty->getDeclaringClass()->getName() === $fqnClass) {
                 $defaultProperties = $refClass->getDefaultProperties();
@@ -233,15 +233,10 @@ class DocTracer
                     }
                 }
 
-                $type = '';
-                if (PHP_VERSION_ID >= 70400 && $refProperty->getType()) {
-                    $type = $refProperty->getType()->getName();
-                }
-
                 $reports[$refProperty->getName()] = [
                     'name'     => $refProperty->getName(),
                     'modifier' => \Reflection::getModifierNames($refProperty->getModifiers()),
-                    'type'     => $type,
+                    'type'     => $refProperty->hasType() ? $this->getTypeHint($refProperty->getType()) : '',
                     'value'    => $this->getValueType($value),
                     'docblock' => $this->parseDocBlock($refProperty),
                 ];
@@ -270,7 +265,7 @@ class DocTracer
                     'line'       => $refMethod->getStartLine(),
                     'modifier'   => \Reflection::getModifierNames($refMethod->getModifiers()),
                     'params'     => $this->getMethodParams($refMethod),
-                    'return'     => $refMethod->getReturnType() ? $refMethod->getReturnType()->getName() : '',
+                    'return'     => $refMethod->hasReturnType() ? $this->getTypeHint($refMethod->getReturnType()) : '',
                     'docblock'   => $this->parseDocBlock($refMethod),
                 ];
             }
@@ -286,7 +281,7 @@ class DocTracer
      *
      * @return array
      */
-    protected function getMethodParams(\ReflectionMethod $refMethod)
+    protected function getMethodParams(\ReflectionMethod $refMethod): array
     {
         $params = [];
 
@@ -298,7 +293,7 @@ class DocTracer
 
             $params[$refParam->getName()] = [
                 'name'    => $refParam->getName(),
-                'type'    => ($refParam->hasType() ? $refParam->getType()->getName() : ''),
+                'type'    => $refParam->hasType() ? $this->getTypeHint($refParam->getType()) : '',
                 'default' => $this->getValueType($value),
             ];
         }
@@ -306,6 +301,29 @@ class DocTracer
         return $params;
     }
 
+    /**
+     * Get the type hint
+     *
+     * @param  \ReflectionType $refType
+     *
+     * @return string
+     */
+    protected function getTypeHint(\ReflectionType $refType): string
+    {
+        $type = '';
+
+        if ($refType->allowsNull()) {
+            $type .= '?';
+        }
+
+        if ($refType instanceof \ReflectionNamedType) {
+            $type .= $refType->getName();
+        } elseif ($refType instanceof \ReflectionUnionType) {
+            $type .= implode('|', $refType->getTypes());
+        }
+
+        return $type;
+    }
 
     /**
      * Check the type of reflection $value to printable value.
@@ -366,7 +384,7 @@ class DocTracer
     {
         $docs = [];
         $tags = [];
-        
+
         if (!$docComment = $ref->getDocComment()) {
             return $docs;
         }
