@@ -114,8 +114,8 @@ class Acme extends ParentClass implements \Countable
         return 'awesome';
     }
 
-    public static function checkModifier(): int
+    public static function checkModifier(int $number): int
     {
-        return 101;
+        return $number++;
     }
 }
