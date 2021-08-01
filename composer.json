@@ -15,6 +15,9 @@
         "phpdocumentor/reflection-docblock": "^5.2",
         "michelf/php-markdown": "^1.9"
     },
+    "require-dev": {
+        "kint-php/kint": "^3.3"
+    },
     "autoload": {
         "psr-4": {
             "Mdz\\": "src/"
