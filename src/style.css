@@ -73,7 +73,6 @@ p, ul, ol, pre {
 * + p, * + ul, * + ol, * + pre {
     margin-top: 8px;
 }
-
 ul, ol {
     padding-left: 25px;
 }
@@ -446,6 +445,10 @@ ul, ol {
 }
 .dt-th-darkmoon pre {
     background: rgba(255,255,555, .04);
+}
+.dt-th-darkmoon strong,
+.dt-th-darkmoon b {
+    color: #aaa;
 }
 .dt-th-darkmoon .dt-col-namespace .th-token-name,
 .dt-th-darkmoon .dt-col-class .th-token-name,
