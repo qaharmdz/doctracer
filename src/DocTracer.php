@@ -23,7 +23,7 @@ use Michelf\MarkdownExtra;
  * ```
  * @link      [DocTracer](https://github.com/qaharmdz/doctracer)
  *
- * @author    Mudzakkir <me@mdzstack.com>
+ * @author    Mudzakkir <hello@mdzstack.com>
  * @copyright Copyright (c) 2021 Mudzakkir
  * @license   [https://opensource.org/licenses/MIT](https://opensource.org/licenses/MIT)
  */
